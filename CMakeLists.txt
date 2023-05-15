@@ -14,10 +14,23 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
         main.cpp
+        node.h
         AVL.h
+        AVL.cpp
+        AVL_Thread.h
+        AVL_Thread.cpp
         HEAP.h
+        HEAP.cpp
+        HEAP_thread.h
+        HEAP_thread.cpp
         ABB.h
+        ABB.cpp
+        ABB_thread.h
+        ABB_thread.cpp
         ARJ.h
+        ARJ.cpp
+        ARJ_thread.h
+        ARJ_thread.cpp
         gamewindow.cpp
         gamewindow.h
         gamewindow.ui
