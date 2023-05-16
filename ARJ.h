@@ -17,6 +17,8 @@ struct Node {
 typedef Node *NodePtr;
 */
 class RBTree {
+    int t_crecer = -1;
+
 private:
 	NodePtr root;
 	NodePtr TNULL;

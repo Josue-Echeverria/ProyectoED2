@@ -9,6 +9,7 @@ using namespace std;
 
 class Heap{
     public:
+    int t_crecer = -1;
     double *datos;
     int largo;
     int n_elementos = 0;

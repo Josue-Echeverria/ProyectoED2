@@ -24,6 +24,7 @@ class Nodo {
 };
 
 class AVL {
+    int t_crecer = -1;
   private:
    enum {IZQUIERDO, DERECHO};
    // Punteros de la lista, para cabeza y nodo actual:

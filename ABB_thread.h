@@ -5,8 +5,8 @@
 
 class ABB_Thread : public QThread{
 public:
-    ABB_Thread(){
-        this->abb = NULL;
+    ABB_Thread(int *a, int *b, int *c, int *d, double *e){
+        this->abb = new ABB(a, b, c, d, e);
     };
 
     void run();

@@ -44,8 +44,14 @@ int main(int argc, char *argv[])
 
     Gamewindow *game_window = new Gamewindow(nullptr,main_window);
 
-    /*ABB_Thread *abb_thread = new ABB_Thread();
+    ABB_Thread *abb_thread = new ABB_Thread(&t_crecimien_abb,&cosecha_cada_t_abb,&cosecha_abb,&costo_abb,&precio_frut_abb);
     abb_thread->start();
+/*    raiz = NULL;
+    this->t_crecer = a;
+    this->t_produ_frut = b;
+    this->n_produ_frut = c;
+    this->costo = d;
+    this->precio_fruto = e;
 
     ARJ_thread *arj_thread = new ARJ_thread();
     arj_thread->start();
