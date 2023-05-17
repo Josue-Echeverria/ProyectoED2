@@ -1,0 +1,27 @@
+#include "gamewindow.h"
+#include "ui_gamewindow.h"
+
+Gamewindow::Gamewindow(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::Gamewindow)
+{
+    ui->setupUi(this);
+    generarLabels();
+    this->setStyleSheet("background-color: lightgreen;");
+}
+
+Gamewindow::~Gamewindow()
+{
+    delete ui;
+}
+
+void Gamewindow::generarLabels(){
+    QGridLayout *layout = ui->gridLayout;
+    //for (int x = 0; x < 8; x++) {
+        //for(int y = 0; y<0; y++){
+            tablero[0][0] = new QLabel(this);
+            tablero[0][0]->setText("a");
+            layout->addWidget(tablero[0][0], 0, 0);
+        //}
+    //}
+}

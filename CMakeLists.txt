@@ -18,6 +18,8 @@ set(PROJECT_SOURCES
         HEAP.h
         ABB.h
         ARJ.h
+        plagaThread.cpp
+        plagaThread.h
         gamewindow.cpp
         gamewindow.h
         gamewindow.ui

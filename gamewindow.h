@@ -2,6 +2,9 @@
 #define GAMEWINDOW_H
 
 #include <QDialog>
+#include "qlabel.h"
+#include <QPixmap>
+#include <QKeyEvent>
 
 namespace Ui {
 class Gamewindow;
@@ -13,6 +16,11 @@ class Gamewindow : public QDialog
 
 public:
     explicit Gamewindow(QWidget *parent = nullptr);
+    QLabel *tablero[8][8];
+    QLabel* granjeroLab;
+    QLabel* plagaLab;
+    void generarLabels();
+    void keyPressEvent( QKeyEvent * event);
     ~Gamewindow();
 
 private:
