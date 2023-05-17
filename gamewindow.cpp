@@ -1,8 +1,11 @@
 #include "gamewindow.h"
 #include "ui_gamewindow.h"
 #include <iostream>
+#include <QMainWindow>
+#include <QHideEvent>
+#include <QDebug>
 
-Gamewindow::Gamewindow(QWidget *parent) :
+Gamewindow::Gamewindow(QWidget *parent, MainWindow *mw):
     QDialog(parent),
     ui(new Ui::Gamewindow)
 {

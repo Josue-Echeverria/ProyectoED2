@@ -1,97 +1,74 @@
+#ifndef ABB_H
+#define ABB_H
+
 #include <iostream>
+#include <QThread>
+#include <QRandomGenerator>
+#include "node.h"
+#include <QDebug>
 using namespace std;
 
 
-class Node {
+#include <queue>
+
+class NodoArbol{
 public:
-    int key;
-    Node* left, * right;
+    double info;
+    NodoArbol *izq, *der;
+    NodoArbol( ){ izq = der = NULL; }
+    NodoArbol(double dato)
+    { info = dato; izq = der = NULL; }
 };
 
+class ABB {
 
-typedef struct Node ABB;
+//private:
+public:
+    NodoArbol *raiz;
+
+    int *t_crecer;
+    int *t_produ_frut;
+    int *n_produ_frut;
+    int *costo;
+    double *precio_fruto;
+
+    ABB(int *a, int *b, int *c, int *d, double *e);
 
 
-ABB* newABB(int item) {
-    ABB* temp = new ABB;
-    temp->key = item;
-    temp->left = temp->right = NULL;
-    return temp;
-}
-
-void inorder(ABB* root) {
-    if (root != NULL) {
-        inorder(root->left);
-        cout << root->key << " ";
-        inorder(root->right);
-    }
-}
-
-void insertABB(ABB*& root, int key)
-{
-    ABB* toinsertABB = newABB(key);
-    ABB* curr = root;
-    ABB* prev = NULL;
-
-    while (curr != NULL) {
-        prev = curr;
-        if (key < curr->key)
-            curr = curr->left;
-        else
-            curr = curr->right;
-    }
-    if (prev == NULL) {
-        prev = toinsertABB;
-        root = prev;
+    ~ABB(){
     }
 
-    else if (key < prev->key) {
-        prev->left = toinsertABB;
-    }
 
-    else {
-        prev->right = toinsertABB;
-    }
-}
+    bool busca (double valor);
 
-ABB* getmin(ABB* root)
-{
-    ABB* curr = root;
+    NodoArbol* encuentraPadre (double valor);
 
-    while (curr && curr->left) {
-        curr = curr->left;
-    }
+    void meterABB (double valor);
 
-    return curr;
-}
+    NodoArbol* predecesor(NodoArbol *actual);
 
-ABB* deleteABB(ABB* root, int key)
-{
-    if (root == NULL)
-        return root;
+    NodoArbol* sucesor (NodoArbol *actual) ;
 
-    if (key < root->key)
-        root->left = deleteABB(root->left, key);
+    void sacarABB(double valor);
 
-    else if (key > root->key)
-        root->right = deleteABB(root->right, key);
-    else {
-        if (root->left == NULL) {
-            ABB* temp = root->right;
-            delete(root);
-            return temp;
-        }
-        else if (root->right == NULL) {
-            ABB* temp = root->left;
-            delete(root);
-            return temp;
-        }
+    void despliegaAncestros (int valor);
 
-        ABB* temp = getmin(root->right);
+    void despliegaMenor();
 
-        root->key = temp->key;
-        root->right = deleteABB(root->right, temp->key);
-    }
-    return root;
-}
+    void despliegaMayor();
 
+    int cuentaPositivos(NodoArbol *r);
+
+    int sumaPositivos(NodoArbol *r);
+
+    void inorder(NodoArbol *r);
+
+    void alturaArbol();
+
+    int altura(NodoArbol *r);
+
+    void despliegaNivelxNivel();
+
+};
+
+#endif

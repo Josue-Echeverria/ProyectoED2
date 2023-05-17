@@ -6,13 +6,15 @@
 #include <QPixmap>
 #include <QKeyEvent>
 
+#include "mainwindow.h"
+#include <iostream>
 namespace Ui {
 class Gamewindow;
 }
-
 class Gamewindow : public QDialog
 {
     Q_OBJECT
+    MainWindow *main_window;
 
 public:
     explicit Gamewindow(QWidget *parent = nullptr);
