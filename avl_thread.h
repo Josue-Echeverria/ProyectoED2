@@ -7,8 +7,8 @@
 
 class AVL_Thread: public QThread{
 public:
-    AVL_Thread(){
-        this->avl = new AVL();
+    AVL_Thread(int *a, int *b, int *c, int *d, double *e){
+        this->avl = new AVL(a, b, c, d, e);
     };
 
     void run();

@@ -17,7 +17,6 @@ struct Node {
 typedef Node *NodePtr;
 */
 class RBTree {
-    int t_crecer = -1;
 
 private:
 	NodePtr root;
@@ -34,7 +33,14 @@ private:
 	// fix the red-black tree
     void fixInsert(NodePtr k);
 public:
-    RBTree();
+    //Esto es para el arbol rojinegro
+    int *t_crecer;
+    int *t_produ_frut;
+    int *n_produ_frut;
+    int *costo;
+    double *precio_fruto;
+
+    RBTree(int *a, int *b, int *c, int *d, double *e);
 
 	// In-Order traversal
 	// Left Subtree -> Node -> Right Subtree

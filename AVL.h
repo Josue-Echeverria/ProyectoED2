@@ -24,7 +24,7 @@ class Nodo {
 };
 
 class AVL {
-    int t_crecer = -1;
+
   private:
    enum {IZQUIERDO, DERECHO};
    // Punteros de la lista, para cabeza y nodo actual:
@@ -34,8 +34,16 @@ class AVL {
    int altura;
 
   public:
+
+   int *t_crecer;
+   int *t_produ_frut;
+   int *n_produ_frut;
+   int *costo;
+   double *precio_fruto;
+
+
    // Constructor y destructor básicos:
-   AVL() : raiz(NULL), actual(NULL) {}
+   AVL(int *a, int *b, int *c, int *d, double *e);
    ~AVL() { Podar(raiz); }
    // Insertar en árbol ordenado:
    void Insertar(const double dat);

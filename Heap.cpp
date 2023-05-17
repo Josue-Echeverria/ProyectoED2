@@ -1,12 +1,17 @@
 #include "Heap.h"
 
-Heap::Heap(int lar){
+Heap::Heap(int lar,int *a, int *b, int *c, int *d, double *e){
     this->datos = new double[lar];
     for(int i = 0; i < lar; i++){
         this->datos[i] = -1;
     }
     this->n_elementos = 0;
     this->largo = lar;
+    this->t_crecer = a;
+    this->t_produ_frut = b;
+    this->n_produ_frut = c;
+    this->costo = d;
+    this->precio_fruto = e;
 }
 
 void Heap::insertar(double n){

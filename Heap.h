@@ -9,12 +9,18 @@ using namespace std;
 
 class Heap{
     public:
-    int t_crecer = -1;
     double *datos;
     int largo;
+
+    int *t_crecer;
+    int *t_produ_frut;
+    int *n_produ_frut;
+    int *costo;
+    double *precio_fruto;
+
     int n_elementos = 0;
 
-    Heap(int lar);
+    Heap(int lar,int *a, int *b, int *c, int *d, double *e);
 
     void insertar(double n);
 

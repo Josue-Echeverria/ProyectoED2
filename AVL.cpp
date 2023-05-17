@@ -360,3 +360,12 @@ void AVL::InOrden(void (*func)(double&, double) , Nodo *nodo, bool r)
    func(nodo->dato, nodo->FE);
    if(nodo->derecho) InOrden(func, nodo->derecho, false);
 }
+
+AVL::AVL(int *a, int *b, int *c, int *d, double *e) {
+   raiz = NULL;
+   actual= NULL;
+   this->t_crecer = a;
+   this->t_produ_frut = b;
+   this->n_produ_frut = c;
+   this->costo = d;
+   this->precio_fruto = e;}

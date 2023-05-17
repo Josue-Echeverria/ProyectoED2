@@ -6,8 +6,8 @@
 
 class ARJ_thread : public QThread{
 public:
-    ARJ_thread(){
-        this->arj = new RBTree();
+    ARJ_thread(int *a, int *b, int *c, int *d, double *e){
+        this->arj = new RBTree(a, b, c, d, e);
     };
 
     void run();

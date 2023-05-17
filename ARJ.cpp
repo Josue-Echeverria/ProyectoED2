@@ -88,12 +88,17 @@ void RBTree::fixInsert(NodePtr k){
     root->color = 0;
 }
 
-RBTree::RBTree() {
+RBTree::RBTree(int *a, int *b, int *c, int *d, double *e) {
     TNULL = new Node;
     TNULL->color = 0;
     TNULL->left = nullptr;
     TNULL->right = nullptr;
     root = TNULL;
+    this->t_crecer = a;
+    this->t_produ_frut = b;
+    this->n_produ_frut = c;
+    this->costo = d;
+    this->precio_fruto = e;
 }
 
 // In-Order traversal

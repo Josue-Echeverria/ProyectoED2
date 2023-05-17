@@ -5,6 +5,7 @@
 #include <QThread>
 #include <QRandomGenerator>
 #include "node.h"
+#include <QDebug>
 using namespace std;
 
 

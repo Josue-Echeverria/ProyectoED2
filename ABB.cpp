@@ -109,7 +109,7 @@ void ABB::alturaArbol(){
 void ABB::inorder(NodoArbol *r){
     if (r != NULL){
         inorder(r->izq);
-        cout<<r->info<< " ";
+            std::cout<<r->info<< " "<<std::endl;
         inorder(r->der);
     }
 }

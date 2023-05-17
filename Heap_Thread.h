@@ -5,8 +5,8 @@
 
 class Heap_Thread: public QThread{
 public:
-    Heap_Thread(int largo){
-        this->heap = new Heap(largo);
+    Heap_Thread(int largo,int *a, int *b, int *c, int *d, double *e){
+        this->heap = new Heap(largo,a, b, c, d, e);
     };
 
     void run();

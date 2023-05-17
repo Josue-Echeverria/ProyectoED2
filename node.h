@@ -2,7 +2,7 @@
 #define NODE_H
 class Node {
 public:
-    double key;
+  //  double key;
  //   Node* left, * right;
     double data; // holds the key
     Node *parent; // pointer to the parent
