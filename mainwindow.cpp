@@ -44,12 +44,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_jugar_clicked()
-{
-    std::cout<<"XD"<<std::endl;
-    this->hide();
-}
-
 void MainWindow::on_pButton_clicked()
 {
     Gamewindow game;

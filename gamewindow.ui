@@ -13,7 +13,6 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-<<<<<<< HEAD
   <widget class="QLabel" name="titleLabel">
    <property name="geometry">
     <rect>
@@ -62,19 +61,6 @@
    </property>
    <property name="text">
     <string/>
-=======
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>490</y>
-     <width>83</width>
-     <height>29</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>PushButton</string>
->>>>>>> master
    </property>
   </widget>
  </widget>

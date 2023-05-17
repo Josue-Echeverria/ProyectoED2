@@ -41,8 +41,8 @@ int main(int argc, char *argv[])
                                     cosecha_cada_t_abb, cosecha_cada_t_avl, cosecha_cada_t_arj, cosecha_cada_t_heap,
                                     precio_frut_abb, precio_frut_avl, precio_frut_arj, precio_frut_heap);
 
-
-    Gamewindow *game_window = new Gamewindow(nullptr,main_window);
+    main_window->show();
+    //Gamewindow *game_window = new Gamewindow(nullptr,main_window);
 
     Heap_Thread *heap_thread = new Heap_Thread(10,&t_crecimien_heap,&cosecha_cada_t_heap,&cosecha_heap,&costo_heap,&precio_frut_heap);
     heap_thread->start();
