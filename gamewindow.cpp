@@ -2,18 +2,19 @@
 #include "ui_gamewindow.h"
 #include <iostream>
 
-
-Gamewindow::Gamewindow(QWidget *parent):
+Gamewindow::Gamewindow(QWidget *parent,MainWindow *m):
     QDialog(parent),
     ui(new Ui::Gamewindow)
 {
-    ui->setupUi(this);
+        ui->setupUi(this);
+
+    this->main_window = m;
     this->setStyleSheet("background-color: lightgreen;");
-    QPixmap granjero("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/agricultorFin.jpg");
-    QPixmap plaga("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/Plaga.jpg");
-    QPixmap oveja("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/oveja.png");
-    QPixmap cuervo("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/cuervo.jpg");
+    QPixmap granjero("C:/Users/Asus/Repositories/ProyectoED2/agricultorFin.jpg");
+    QPixmap plaga("C:/Users/Asus/Repositories/ProyectoED2/Plaga.jpg");
     granjeroLab = findChild<QLabel*>("granjeroLabel");
+    QPixmap oveja("C:/Users/Asus/Repositories/ProyectoED2/oveja.png");
+    QPixmap cuervo("C:/Users/Asus/Repositories/ProyectoED2/cuervo.jpg");
     granjeroLab->setPixmap(granjero);
     plagaLab = findChild<QLabel*>("plagaLabel");
     plagaLab->setPixmap(plaga);
@@ -28,6 +29,8 @@ Gamewindow::Gamewindow(QWidget *parent):
     //plagahilo = new plagaThread(plagaLab, 100, 1, 10, 0, 0, 1, tab);
     granjeroLab->setGeometry(60,80,50,50);
     plagaLab->setGeometry(60,80,50,50);
+    std::cout<<"AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"<<std::endl;
+    std::cout<<plagaLab->x()<<std::endl;
     generarLabels();
     plagahilo->start();
 }
@@ -52,7 +55,10 @@ void Gamewindow::generarLabels(){
     }
 }
 
-void Gamewindow::keyPressEvent( QKeyEvent * event)
+
+
+
+void Gamewindow::keyPressEvent(QKeyEvent * event)
 {
     int py = granjeroLab->y();
     int px = granjeroLab->x();
@@ -85,4 +91,24 @@ void Gamewindow::keyPressEvent( QKeyEvent * event)
             px = 935;
         granjeroLab->setGeometry(px,py,50,50);
     }
+    else if( event->key() == Qt::Key_F1){
+        this->main_window->show();
+    }
+
 }
+
+
+
+
+
+void Gamewindow::on_pushButton_clicked()
+{
+
+}
+
+
+void Gamewindow::on_pushButton_2_clicked()
+{
+
+}
+

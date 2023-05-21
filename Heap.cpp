@@ -1,8 +1,8 @@
 #include "Heap.h"
 
 Heap::Heap(int lar,int *a, int *b, int *c, int *d, double *e){
-    this->datos = new double[lar];
-    for(int i = 0; i < lar; i++){
+    this->datos = new double[lar+1];
+    for(int i = 0; i < lar+1; i++){
         this->datos[i] = -1;
     }
     this->n_elementos = 0;
@@ -13,16 +13,53 @@ Heap::Heap(int lar,int *a, int *b, int *c, int *d, double *e){
     this->costo = d;
     this->precio_fruto = e;
 }
+void Heap::comer(int n){
+    while(n > 0 & n_elementos > 0){
+        if(this->delete_random() != -1){
+            std::cout<<"\nLo elimine"<<std::endl;
+            n--;
+            this->perdidos++;
+        }else
+            break;
+    }
+}
+
+double Heap::vender(int n){
+    double acumulador = 0;
+    if(n == -1){
+        acumulador = this->n_elementos**this->precio_fruto;
+        this->vendidos += this->n_elementos;
+        eliminar_todo();
+        return acumulador;
+    }
+    while(n > 0 & n_elementos > 0){
+        if(this->delete_random() != -1){
+            std::cout<<"\nLo elimine"<<std::endl;
+            acumulador += *this->precio_fruto;
+            n--;
+            this->vendidos++;
+        }else
+            break;
+    }
+    return acumulador;
+}
 
 void Heap::insertar(double n){
     if(largo == n_elementos){
-        cout<<"Arbol heap lleno"<<endl;
+        std::cout<<"Arbol heap lleno"<<std::endl;
     }else{
         shiftright();
         datos[0] = n;
         getmax(0);
         this->n_elementos++;
     }
+}
+
+void Heap::eliminar_todo(){
+    for(int i = 0; i<n_elementos;i++){
+        this->datos[i] = -1;
+    }
+    this->n_elementos = 0;
 }
 
 void Heap::shiftright(){
@@ -64,6 +101,19 @@ double Heap::eliminar(double entrada){
     }
     return -1;
 };
+
+int Heap::delete_random(){
+    if(this->n_elementos == 0)
+        return -1;
+    else{
+        int random = QRandomGenerator::global()->bounded(this->n_elementos);
+        double toretrun = this->datos[random];
+        shiftleft_from(random);
+        this->n_elementos--;
+        return toretrun;
+    }
+
+}
 
 double Heap::buscar(double entrada){
     for(int i = 0; i<n_elementos;i++){

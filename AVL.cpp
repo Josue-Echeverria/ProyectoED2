@@ -1,5 +1,36 @@
 #include "AVL.h"
+void AVL::comer(int n){
+    while(n > 0 & n_elementos > 0){
+        if(this->del_min() != -1){
+            std::cout<<"\nLo elimine"<<std::endl;
+            n--;
+            this->perdidos++;
+        }else
+            break;
+    }
+}
 
+double AVL::vender(int n){
+    double acumulador = 0;
+    if(n == -1){
+        acumulador = this->n_elementos**this->precio_fruto;
+        this->raiz = NULL;
+        this->actual = NULL;
+        this->vendidos += this->n_elementos;
+        this->n_elementos = 0;
+        return acumulador;
+    }
+    while(n > 0 & n_elementos > 0){
+        if(this->del_min() != -1){
+            std::cout<<"\nLo elimine"<<std::endl;
+            acumulador += *this->precio_fruto;
+            n--;
+            this->vendidos++;
+        }else
+            break;
+    }
+    return acumulador;
+}
 
 // Poda: borrar todos los nodos a partir de uno, incluido
 void AVL::Podar(Nodo* &nodo)
@@ -11,6 +42,26 @@ void AVL::Podar(Nodo* &nodo)
       delete nodo;            // Eliminar nodo
       nodo = NULL;
    }
+}
+Nodo *AVL::get_min(Nodo *node){
+   if(node != NULL){
+       while (node->izquierdo != NULL) {
+          node = node->izquierdo;
+        }
+        return node;
+   }
+   return NULL;
+}
+
+double AVL::del_min(){
+    Nodo *min = get_min(this->raiz);
+   if(min!= NULL){
+        double temp = Buscar(min->dato)->dato;
+        Borrar(min->dato);
+        this->n_elementos--;
+        return temp;
+   }
+   return -1;
 }
 
 // Insertar un dato en el árbol AVL
@@ -43,6 +94,8 @@ void AVL::Insertar(const double dat)
       padre->derecho = new Nodo(dat, padre);
       Equilibrar(padre, DERECHO, true);
    }
+   this->n_elementos++;
+
 }
 
 // Equilibrar árbol AVL partiendo del nodo nuevo
@@ -276,17 +329,17 @@ void AVL::Borrar(const double dat)
 }
 
 // Buscar un valor en el árbol
-bool AVL::Buscar(const double dat)
+Nodo *AVL::Buscar(const double dat)
 {
    actual = raiz;
 
    // Todavía puede aparecer, ya que quedan nodos por mirar
    while(!Vacio(actual)) {
-      if(dat == actual->dato) return true; // dato encontrado
+      if(dat == actual->dato) return actual; // dato encontrado
       else if(dat > actual->dato) actual = actual->derecho; // Seguir
       else if(dat < actual->dato) actual = actual->izquierdo;
    }
-   return false; // No está en árbol
+   return NULL; // No está en árbol
 }
 
 // Calcular la altura del nodo que contiene el dato dat
@@ -364,6 +417,8 @@ void AVL::InOrden(void (*func)(double&, double) , Nodo *nodo, bool r)
 AVL::AVL(int *a, int *b, int *c, int *d, double *e) {
    raiz = NULL;
    actual= NULL;
+   this->n_elementos = 0;
+
    this->t_crecer = a;
    this->t_produ_frut = b;
    this->n_produ_frut = c;

@@ -30,6 +30,10 @@ public:
     int *t_produ_frut;
     int *n_produ_frut;
     int *costo;
+    int n_elementos= 0;
+    int perdidos = 0;
+    int vendidos= 0;
+    double vender(int);
     double *precio_fruto;
 
     ABB(int *a, int *b, int *c, int *d, double *e);
@@ -68,6 +72,12 @@ public:
     int altura(NodoArbol *r);
 
     void despliegaNivelxNivel();
+
+    NodoArbol *get_min();
+
+    double del_min();
+
+    void comer(int);
 
 };
 

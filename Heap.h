@@ -17,8 +17,11 @@ class Heap{
     int *n_produ_frut;
     int *costo;
     double *precio_fruto;
-
+    int perdidos = 0;
+    int vendidos = 0;
     int n_elementos = 0;
+    double vender(int);
+    void comer(int);
 
     Heap(int lar,int *a, int *b, int *c, int *d, double *e);
 
@@ -31,6 +34,10 @@ class Heap{
     void shiftleft_from(int index);
 
     double eliminar(double entrada);
+
+    void eliminar_todo();
+
+    int delete_random();
 
     double buscar(double entrada);
 

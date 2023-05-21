@@ -10,6 +10,7 @@
 #include "tablero.h"
 #include <iostream>
 #include "mainwindow.h"
+
 namespace Ui {
 class Gamewindow;
 }
@@ -19,7 +20,7 @@ class Gamewindow : public QDialog
     MainWindow *main_window;
 
 public:
-    explicit Gamewindow(QWidget *parent = nullptr);
+    explicit Gamewindow(QWidget *parent = nullptr, MainWindow *m = NULL);
     QLabel *parcelas[8][8];
     QLabel* granjeroLab;
     QLabel* plagaLab;
@@ -32,9 +33,18 @@ public:
     tablero * tab;
     void generarLabels();
     void keyPressEvent( QKeyEvent * event);
-    ~Gamewindow();
+  ~Gamewindow();
+
+
+
+private slots:
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
 
 private:
+
+
     Ui::Gamewindow *ui;
 };
 

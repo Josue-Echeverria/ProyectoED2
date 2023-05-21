@@ -7,8 +7,42 @@ ABB::ABB(int *a, int *b, int *c, int *d, double *e){
     this->n_produ_frut = c;
     this->costo = d;
     this->precio_fruto = e;
+    this->n_elementos = 0;
+
 }
 
+void ABB::comer(int n){
+    while(n > 0 & n_elementos > 0){
+        if(this->del_min() != -1){
+            std::cout<<"\nLo elimine"<<std::endl;
+            n--;
+            this->perdidos++;
+        }else
+            break;
+    }
+}
+
+
+double ABB::vender(int n){
+    double acumulador = 0;
+    if(n == -1){
+        acumulador = this->n_elementos**this->precio_fruto;
+        this->raiz = NULL;
+        this->vendidos += this->n_elementos;
+        this->n_elementos = 0;
+        return acumulador;
+    }
+    while(n > 0 & n_elementos > 0){
+        if(this->del_min() != -1){
+            std::cout<<"\nLo elimine"<<std::endl;
+            acumulador += *this->precio_fruto;
+            n--;
+            this->vendidos++;
+        }else
+            break;
+    }
+    return acumulador;
+}
 
 bool ABB::busca (double valor){
     NodoArbol * p = raiz;
@@ -20,6 +54,24 @@ bool ABB::busca (double valor){
             p=(p->info > valor? p->izq: p->der);
     }
     return false;
+}
+
+NodoArbol *ABB::get_min() {
+    NodoArbol *ptr = this->raiz;
+    while (ptr->izq != NULL)
+        ptr = ptr->izq;
+    return ptr;
+}
+
+double ABB::del_min(){
+    NodoArbol *ptr = get_min();
+    if(ptr != NULL){
+        double temp = ptr->info;
+        sacarABB(ptr->info);
+        this->n_elementos--;
+        return temp;
+    }
+    return -1;
 }
 
 
@@ -47,6 +99,8 @@ void ABB::meterABB (double valor){
         else
             padre->der = nuevo;
     }
+    this->n_elementos++;
+
 }
 
 

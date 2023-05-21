@@ -40,8 +40,12 @@ class AVL {
    int *n_produ_frut;
    int *costo;
    double *precio_fruto;
+   double vender(int);
+   void comer(int);
 
-
+   int n_elementos= 0;
+   int perdidos= 0;
+   int vendidos= 0;
    // Constructor y destructor básicos:
    AVL(int *a, int *b, int *c, int *d, double *e);
    ~AVL() { Podar(raiz); }
@@ -50,7 +54,7 @@ class AVL {
    // Borrar un elemento del árbol:
    void Borrar(const double dat);
    // Función de búsqueda:
-   bool Buscar(const double dat);
+   Nodo *Buscar(const double dat);
    // Comprobar si el árbol está vacío:
    bool Vacio(Nodo *r) { return r==NULL; }
    // Comprobar si es un nodo hoja:
@@ -68,6 +72,8 @@ class AVL {
    void InOrden(void (*func)(double&, double) , Nodo *nodo=NULL, bool r=true);
    void PreOrden(void (*func)(int&, int) , Nodo *nodo=NULL, bool r=true);
    void PostOrden(void (*func)(int&, int) , Nodo *nodo=NULL, bool r=true);
+   Nodo *get_min(Nodo *node);
+   double del_min();
   private:
    // Funciones de equilibrado:
    void Equilibrar(Nodo *nodo, int, bool);
@@ -79,6 +85,7 @@ class AVL {
    void Podar(Nodo* &);
    void auxContador(Nodo*);
    void auxAltura(Nodo*, int);
+
 };
 void Mostrar(double &d, double FE);
 

@@ -5,74 +5,46 @@
 #include <QRandomGenerator>
 #include "node.h"
 using namespace std;
-/*
-struct Node {
-	double data; // holds the key
-	Node *parent; // pointer to the parent
-	Node *left; // pointer to left child
-	Node *right; // pointer to right child
-	int color; // 1 -> Red, 0 -> Black
-};
 
-typedef Node *NodePtr;
-*/
+
+enum Color {RED, BLACK, DOUBLE_BLACK};
+
 class RBTree {
 
 private:
-	NodePtr root;
-	NodePtr TNULL;
-
-    void initializeNULLNode(NodePtr node, NodePtr parent);
-
-    void inOrderHelper(NodePtr node);
-
-    NodePtr searchTreeHelper(NodePtr node, double key);
-
-    void rbTransplant(NodePtr u, NodePtr v);
-
-	// fix the red-black tree
-    void fixInsert(NodePtr k);
+    Node *root;
+protected:
+    void rotateLeft(Node *&);
+    void rotateRight(Node *&);
+    void fixInsertRBTree(Node *&);
+    void fixDeleteRBTree(Node *&);
+    void inorderBST(Node *&);
+    void preorderBST(Node *&);
+    int getColor(Node *&);
+    void setColor(Node *&, int);
+    Node *minValueNode(Node *&);
+    Node *maxValueNode(Node *&);
+    Node* insertBST(Node *&, Node *&);
+    Node* deleteBST(Node *&, double);
+    int getBlackHeight(Node *);
 public:
-    //Esto es para el arbol rojinegro
     int *t_crecer;
     int *t_produ_frut;
     int *n_produ_frut;
     int *costo;
+    int perdidos= 0;
+    int vendidos= 0;
+    int n_elementos= 0;
     double *precio_fruto;
+    double vender(int);
+    void comer(int);
 
     RBTree(int *a, int *b, int *c, int *d, double *e);
-
-	// In-Order traversal
-	// Left Subtree -> Node -> Right Subtree
-    void inorder() ;
-
-	// search the tree for the key k
-	// and return the corresponding node
-    NodePtr searchTree(double k) ;
-
-	// find the node with the minimum key
-    NodePtr minimum(NodePtr node) ;
-
-	// find the node with the maximum key
-    NodePtr maximum(NodePtr node) ;
-
-	// find the successor of a given node
-    NodePtr successor(NodePtr x) ;
-
-	// find the predecessor of a given node
-    NodePtr predecessor(NodePtr x) ;
-
-	// rotate left at node x
-    void leftRotate(NodePtr x) ;
-
-	// rotate right at node x
-    void rightRotate(NodePtr x) ;
-
-    void insert(double key) ;
-
-    NodePtr getRoot() ;
-
-
-
+    void insertValue(double);
+    void deleteValue(double);
+    double del_min();
+    void merge(RBTree);
+    void inorder();
+    void preorder();
 };
 #endif
