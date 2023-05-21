@@ -1,22 +1,11 @@
 #ifndef PLAGATHREAD_H
 #define PLAGATHREAD_H
 #include <QThread>
-#include <QLabel>
-#include <QRandomGenerator>
-#include "tablero.h"
+#include <time.h>
+#include "gamewindow.h"
 class plagaThread : public QThread{
 public:
-    bool activas;
-    bool running;
-    QLabel *plagaLabel;
-    int probabilidad;
-    int cant;
-    int tiempoSeg;
-    int frutosComen;
-    int tiempoSegComen;
-    int tipo;
-    tablero *tab;
-    plagaThread(QLabel *plagaLabel, int probabilidad, int cant, int tiempoSeg, int frutosComen, int tiempoSegComen, int tipo, tablero *tab){
+    plagaThread(QLabel *plagaLabel, int probabilidad, int cant, int tiempoSeg, int frutosComen, int tiempoSegComen){
         activas = false;
         this->plagaLabel = plagaLabel;
         this->probabilidad = probabilidad;
@@ -24,13 +13,19 @@ public:
         this->tiempoSeg = tiempoSeg;
         this->frutosComen = frutosComen;
         this->tiempoSegComen = tiempoSegComen;
-        this->tab = tab;
-        this->tipo = tipo;
     }
+    bool activas;
+    QLabel *plagaLabel;
+    int probabilidad;
+    int cant;
+    int tiempoSeg;
+    int frutosComen;
+    int tiempoSegComen;
     bool pregunteProbabilidad();
     void aparecerPlaga();
     void esconderPlaga();
-    void verificarGranjero(int, int);
+    void verificarGranjero(int x, int y);
+
 
     void run();
 };

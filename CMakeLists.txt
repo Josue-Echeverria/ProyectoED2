@@ -28,11 +28,15 @@ set(PROJECT_SOURCES
         ABB_thread.h
         ABB_thread.cpp
         ARJ.h
+        tablero.h
+        tablero.cpp
         plagaThread.cpp
         plagaThread.h
         ARJ.cpp
         ARJ_thread.h
         ARJ_thread.cpp
+        granjero.h
+        granjero.cpp
         gamewindow.cpp
         gamewindow.h
         gamewindow.ui

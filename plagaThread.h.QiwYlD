@@ -1,0 +1,34 @@
+#ifndef PLAGATHREAD_H
+#define PLAGATHREAD_H
+#include <QThread>
+#include <time.h>
+#include "gamewindow.h"
+class plagaThread : public QThread{
+public:
+    plagaThread(QLabel *plagaLabel, int probabilidad, int cant, int tiempoSeg, int frutosComen, int tiempoSegComen){
+        activas = false;
+        this->plagaLabel = plagaLabel;
+        this->probabilidad = probabilidad;
+        this->cant = cant;
+        this->tiempoSeg = tiempoSeg;
+        this->frutosComen = frutosComen;
+        this->tiempoSegComen = tiempoSegComen;
+    }
+    bool activas;
+    QLabel *plagaLabel;
+    int probabilidad;
+    int cant;
+    int tiempoSeg;
+    int frutosComen;
+    int tiempoSegComen;
+    bool pregunteProbabilidad();
+    int aparecerPlaga();
+    int esconderPlaga();
+
+
+    void run();
+};
+#endif // PLAGATHREAD_H
+bool plagaThread::pregunteProbabilidad{
+
+};

@@ -5,9 +5,11 @@
 #include "qlabel.h"
 #include <QPixmap>
 #include <QKeyEvent>
-
-#include "mainwindow.h"
+#include "granjero.h"
+#include "plagaThread.h"
+#include "tablero.h"
 #include <iostream>
+#include "mainwindow.h"
 namespace Ui {
 class Gamewindow;
 }
@@ -18,9 +20,16 @@ class Gamewindow : public QDialog
 
 public:
     explicit Gamewindow(QWidget *parent = nullptr);
-    QLabel *tablero[8][8];
+    QLabel *parcelas[8][8];
     QLabel* granjeroLab;
     QLabel* plagaLab;
+    QLabel * ovejaLab;
+    QLabel * cuervoLab;
+    granjero * granjeroTab;
+    plagaThread * plagahilo;
+    plagaThread * ovejahilo;
+    plagaThread * cuervohilo;
+    tablero * tab;
     void generarLabels();
     void keyPressEvent( QKeyEvent * event);
     ~Gamewindow();

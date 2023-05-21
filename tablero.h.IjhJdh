@@ -1,0 +1,27 @@
+#ifndef TABLERO_H
+#define TABLERO_H
+
+class casilla{
+public:
+    int x;
+    int y;
+    int arbol;
+    bool plaga;
+    bool granjero;
+    casilla(int x, int y, int arbol){
+        this->x = x;
+        this->y = y;
+        this->arbol = arbol;
+        this->plaga = false;
+        this->granjero = false;
+    }
+};
+
+class tablero{
+    casilla *Tablero[8][8];
+    tablero(){
+
+    }
+};
+
+#endif // TABLERO_H

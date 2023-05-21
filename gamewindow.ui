@@ -37,7 +37,7 @@
    </property>
    <layout class="QGridLayout" name="gridLayout"/>
   </widget>
-  <widget class="QLabel" name="granjerolabel">
+  <widget class="QLabel" name="granjeroLabel">
    <property name="geometry">
     <rect>
      <x>1050</x>
@@ -50,11 +50,37 @@
     <string/>
    </property>
   </widget>
-  <widget class="QLabel" name="plagalabel">
+  <widget class="QLabel" name="plagaLabel">
    <property name="geometry">
     <rect>
      <x>1050</x>
      <y>160</y>
+     <width>81</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ovejaLabel">
+   <property name="geometry">
+    <rect>
+     <x>1060</x>
+     <y>270</y>
+     <width>71</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="cuervoLabel">
+   <property name="geometry">
+    <rect>
+     <x>1060</x>
+     <y>400</y>
      <width>81</width>
      <height>71</height>
     </rect>
