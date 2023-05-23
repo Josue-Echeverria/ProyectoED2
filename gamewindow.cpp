@@ -7,16 +7,31 @@ Gamewindow::Gamewindow(QWidget *parent,MainWindow *m):
     ui(new Ui::Gamewindow)
 {
         ui->setupUi(this);
-
+   // this->mercado = new Mercado();
+    this->granjero = new class granjero();
     this->main_window = m;
     this->setStyleSheet("background-color: lightgreen;");
-    QPixmap granjero("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/agricultorFin.png");
-    QPixmap plaga("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/Plaga.png");
+    QPixmap granjero_imagen("C:/Users/Asus/Repositories/ProyectoED2/agricultorFin.png");
+    QPixmap plaga("C:/Users/Asus/Repositories/ProyectoED2/Plaga.png");
     granjeroLab = findChild<QLabel*>("granjeroLabel");
-    QPixmap oveja("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/oveja.png");
-    QPixmap cuervo("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/cuervo.png");
-    //QPixmap espantapajaro("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/espantapajaros.jpg");
-    granjeroLab->setPixmap(granjero);
+    QPixmap oveja("C:/Users/Asus/Repositories/ProyectoED2/oveja.png");
+    QPixmap cuervo("C:/Users/Asus/Repositories/ProyectoED2/cuervo.png");
+
+    QPixmap abb_imagen("C:/Users/Asus/Repositories/ProyectoED2/ABB_matriz.png");
+    this->abb_ = abb_imagen;
+    QPixmap avl_imagen("C:/Users/Asus/Repositories/ProyectoED2/AVL_matriz.png");
+    this->avl_ = avl_imagen;
+    QPixmap arj_imagen("C:/Users/Asus/Repositories/ProyectoED2/ARJ_matriz.png");
+    this->arj_ = arj_imagen;
+    QPixmap heap_imagen("C:/Users/Asus/Repositories/ProyectoED2/Heap_matriz.png");
+    this->heap_ = heap_imagen;
+
+    tabla = findChild<QTableWidget*>("tabla");
+//    tabla->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    tabla->setFocusPolicy(Qt::NoFocus);
+    tabla->setSelectionMode(QAbstractItemView::NoSelection);
+
+    granjeroLab->setPixmap(granjero_imagen);
     plagaLab = findChild<QLabel*>("plagaLabel");
     plagaLab->setPixmap(plaga);
     plagaLab->setVisible(false);
@@ -27,15 +42,13 @@ Gamewindow::Gamewindow(QWidget *parent,MainWindow *m):
     cuervoLab->setPixmap(cuervo);
     cuervoLab->setVisible(false);
     tab = new class tablero();
-    granjeroTab = new class granjero(granjeroLab, tab);
-    granjeroTab->cargaEspantajaros = true;
-    plagahilo = new plagaThread(plagaLab, 100, 2, 5, 0, 0, 3, tab, granjeroTab, mutexTablero);
-    ovejahilo = new plagaThread(ovejaLab, 100, 1, 5, 0, 0, 1, tab, granjeroTab, mutexTablero);
-    cuervohilo = new plagaThread(cuervoLab, 100, 1, 5, 0, 0, 1, tab, granjeroTab, mutexTablero);
+    granjero = new class granjero();
+  //  granjero->cargaEspantajaros = true;
+    plagahilo = new plagaThread(plagaLab, 100, 1, 5, 0, 0, 3, tab, granjero, mutexTablero);
+    ovejahilo = new plagaThread(ovejaLab, 100, 1, 5, 0, 0, 1, tab, granjero, mutexTablero);
+    cuervohilo = new plagaThread(cuervoLab, 100, 1, 5, 0, 0, 1, tab, granjero, mutexTablero);
     granjeroLab->setGeometry(60,80,50,50);
     plagaLab->setGeometry(60,80,50,50);
-    std::cout<<"AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"<<std::endl;
-    std::cout<<plagaLab->x()<<std::endl;
     generarLabels();
     cuervohilo->start();
     plagahilo->start();
@@ -67,6 +80,7 @@ void Gamewindow::generarLabels(){
 
 void Gamewindow::keyPressEvent(QKeyEvent * event)
 {
+    //tabla->setDisabled(true);
     int py = granjeroLab->y();
     int px = granjeroLab->x();
     if( event->key() == Qt::Key_Down)
@@ -104,17 +118,61 @@ void Gamewindow::keyPressEvent(QKeyEvent * event)
     else if( event->key() == Qt::Key_F1){
         this->main_window->show();
     }
+    else if( event->key() == Qt::Key_F2){
+        this->mercado = new Mercado(NULL,*this->main_window->costo_abb,*this->main_window->costo_avl,*this->main_window->costo_arj,*this->main_window->costo_heap,
+                                    *this->main_window->t_crecimien_abb,*this->main_window->t_crecimien_avl,*this->main_window->t_crecimien_arj,*this->main_window->t_crecimien_heap,
+                                    *this->main_window->cosecha_abb,*this->main_window->cosecha_avl,*this->main_window->cosecha_arj,*this->main_window->cosecha_heap,
+                                    *this->main_window->cosecha_cada_t_abb,*this->main_window->cosecha_cada_t_avl,*this->main_window->cosecha_cada_t_arj,*this->main_window->cosecha_cada_t_heap,
+                                    *this->main_window->precio_frut_abb,*this->main_window->precio_frut_avl,*this->main_window->precio_frut_arj,*this->main_window->precio_frut_heap,
+                                    this->granjero,*this->main_window->costo_espantapajaros);
+        this->mercado->show();
+    }
+    else if( event->key() == Qt::Key_F3){
+
+        int posy_matriz = (py-80)/77;
+        int posx_matriz = (px-60)/125;
+
+        if(this->granjero->cargaArbolTipo == 1){ // 0 = vacio, 1 = ABB, 2 = ARJ, 3 = AVL, 4 = Heap.
+            this->tab->modificarArbol(posx_matriz,posy_matriz,1,this->main_window->t_crecimien_abb,
+                                      this->main_window->cosecha_cada_t_abb,this->main_window->cosecha_abb,
+                                      this->main_window->costo_abb,this->main_window->precio_frut_abb,tabla);
+            parcelas[posy_matriz][posx_matriz]->setPixmap(this->abb_);
+            this->granjero->cargaArbolTipo = 0;
+        }
+        if(this->granjero->cargaArbolTipo == 2){ // 0 = vacio, 1 = ABB, 2 = ARJ, 3 = AVL, 4 = Heap.
+            this->tab->modificarArbol(posx_matriz,posy_matriz,2,this->main_window->t_crecimien_arj,
+                                      this->main_window->cosecha_cada_t_arj,this->main_window->cosecha_arj,
+                                      this->main_window->costo_arj,this->main_window->precio_frut_arj,tabla);
+            parcelas[posy_matriz][posx_matriz]->setPixmap(this->arj_);
+            this->granjero->cargaArbolTipo = 0;
+        }
+        if(this->granjero->cargaArbolTipo == 3){ // 0 = vacio, 1 = ABB, 2 = ARJ, 3 = AVL, 4 = Heap.
+            this->tab->modificarArbol(posx_matriz,posy_matriz,3,this->main_window->t_crecimien_avl,
+                                      this->main_window->cosecha_cada_t_avl,this->main_window->cosecha_avl,
+                                      this->main_window->costo_avl,this->main_window->precio_frut_avl,tabla);
+            parcelas[posy_matriz][posx_matriz]->setPixmap(this->avl_);
+            this->granjero->cargaArbolTipo = 0;
+        }
+        if(this->granjero->cargaArbolTipo == 4){ // 0 = vacio, 1 = ABB, 2 = ARJ, 3 = AVL, 4 = Heap.
+            this->tab->modificarArbol(posx_matriz,posy_matriz,4,this->main_window->t_crecimien_heap,
+                                      this->main_window->cosecha_cada_t_heap,this->main_window->cosecha_heap,
+                                      this->main_window->costo_heap,this->main_window->precio_frut_heap,tabla);
+            parcelas[posy_matriz][posx_matriz]->setPixmap(this->heap_);
+            this->granjero->cargaArbolTipo = 0;
+        }
+    }
     else if(event->key() == Qt::Key_F4){
-        if(granjeroTab->cargaEspantajaros){
-            QPixmap espantapajaro("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/espantapajaros.png");
+        if(granjero->cargaEspantajaros){
+            QPixmap espantapajaro("C:/Users/Asus/Repositories/ProyectoED2/espantapajaros.png");
             int posy_matriz = (py-80)/77;
             int posx_matriz = (px-60)/125;
             tab->Tablero[posx_matriz][posy_matriz]->espantaPaj = true;
             parcelas[posy_matriz][posx_matriz]->setPixmap(espantapajaro);
-            //granjeroTab->cargaEspantajaros = false;
+            granjero->cargaEspantajaros = false;
         }
     }
 }
+   // tabla->setDisabled(false);
 
 void Gamewindow::verificarGranjero(int x, int y){
     if(plagaLab->x() == x && plagaLab->y() == y){
@@ -127,6 +185,7 @@ void Gamewindow::verificarGranjero(int x, int y){
         cuervoLab->setVisible(false);
     }
 }
+
 
 void Gamewindow::on_pushButton_clicked()
 {

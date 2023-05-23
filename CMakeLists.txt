@@ -43,6 +43,9 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        mercado.cpp
+        mercado.h
+        mercado.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

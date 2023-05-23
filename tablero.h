@@ -55,21 +55,24 @@ class tablero{
     void agregarPlaga(int x, int y, int numPlaga){
         Tablero[x][y]->plaga = numPlaga;
     }
-
-    void modificarArbol(int x, int y, int numArbol){
+    void modificarArbol(int x, int y, int numArbol,int *t_crecer,int *t_para_cosechar,int *cosecha_n,int *costo, double *precio_x_fruta,QTableWidget *tabla){
         Tablero[x][y]->arbol = numArbol;
-        switch (numArbol) {
+        switch (numArbol) {// 0 = vacio, 1 = ABB, 2 = ARJ, 3 = AVL, 4 = Heap.
         case 1:
-            //Tablero[x][y]->Abb = new ABB_Thread();
+            Tablero[x][y]->Abb = new ABB_Thread(t_crecer,t_para_cosechar,cosecha_n,costo,precio_x_fruta,tabla,x,y);
+            Tablero[x][y]->Abb->start();
             break;
         case 2:
-
+            Tablero[x][y]->Arj = new ARJ_thread(t_crecer,t_para_cosechar,cosecha_n,costo,precio_x_fruta,tabla,x,y);
+            Tablero[x][y]->Arj->start();
             break;
         case 3:
-
+            Tablero[x][y]->Avl = new AVL_Thread(t_crecer,t_para_cosechar,cosecha_n,costo,precio_x_fruta,tabla,x,y);
+            Tablero[x][y]->Avl->start();
             break;
         case 4:
-
+            Tablero[x][y]->Heap = new Heap_Thread(20,t_crecer,t_para_cosechar,cosecha_n,costo,precio_x_fruta,tabla,x,y);
+            Tablero[x][y]->Heap->start();
             break;
         }
     }

@@ -2,7 +2,7 @@
 
 void Heap_Thread::actualizar_interfaz(){
     actualizar_interfaz_aux(0,"Heap");
-    //    actualizar_interfaz_aux(1,);
+    actualizar_interfaz_aux(1,"("+QString::number(this->x)+","+QString::number(this->y)+")");
     actualizar_interfaz_aux(2,QString::number(this->heap->n_elementos));
     actualizar_interfaz_aux(3,QString::number(this->heap->n_elementos * *this->heap->precio_fruto));
     actualizar_interfaz_aux(4,QString::number(this->heap->perdidos));
@@ -27,37 +27,18 @@ void Heap_Thread::run(){
 
     int t_para_crecer = *this->heap->t_crecer;
     this->pos_table = this->tabla_intefaz->columnCount();
-    std::cout<<"AAAAAAAAAAAAAAAA"<<pos_table<<std::endl;
     this->tabla_intefaz->insertColumn(pos_table);
     int temp = 2;
 
     while(true){
         this->actualizar_interfaz();
-
-        /* ESTO ES LA PRUBA PARA LAS PLAGAS
-        if(temp == 0 ){
-            std::cout<<"\nVoy a eliminar"<<t_para_crecer<<std::endl;
-            this->heap->mostrar();
-
-            if(this->heap->delete_random() != -1){
-                std::cout<<"\nLo elimine"<<t_para_crecer<<std::endl;
-            }
-            this->heap->mostrar();
-
-            temp = 2;
-        }else{
-            temp--;
-            std::cout<<"\nEliminand en:"<<temp<<std::endl;
-
-        }
-        */
         while(t_para_crecer > 0){
             /*
              * Aqui deberia de tipo modificar la inferfaz maybe
              *
              */
             t_para_crecer--;
-            std::cout<<"\nARBOL heap creciendo "<<t_para_crecer<<std::endl;
+
             QThread::sleep(1);
         }
         for(int i = *this->heap->t_produ_frut; i >= 0; i--){
@@ -73,7 +54,7 @@ void Heap_Thread::run(){
                 this->heap->vender(1);
                 this->has_2_sell = false;
             }
-            std::cout<<"\nARBOL heap produciendo "<<i<<std::endl;
+    //        std::cout<<"\nARBOL heap produciendo "<<i<<std::endl;
             QThread::sleep(1);
 
         }
@@ -82,8 +63,8 @@ void Heap_Thread::run(){
             double random = QRandomGenerator::global()->generateDouble() * 4 + 1;
             this->heap->insertar(random);
         }
-        this->heap->mostrar();
-        std::cout<<"\nARBOL heap"<<std::endl;
+       // this->heap->mostrar();
+      //  std::cout<<"\nARBOL heap"<<std::endl;
         this->mutex_heap.unlock();
         // QThread::sleep(2);
     }

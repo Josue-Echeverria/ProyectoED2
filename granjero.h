@@ -9,9 +9,10 @@ public:
     QLabel * granjeroLabel;
     tablero * tab;
     double dinero;
-    bool cargaArbol;
+    int cargaArbolTipo;
     bool cargaEspantajaros;
-    granjero(QLabel * granjeroLabel, tablero * tab);
+
+    granjero();
     int verificarPosicion();
 
 };

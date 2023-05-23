@@ -3,7 +3,7 @@
 
 void ARJ_thread::actualizar_interfaz(){
     actualizar_interfaz_aux(0,"Roji-Negro");
-//    actualizar_interfaz_aux(1,);
+    actualizar_interfaz_aux(1,"("+QString::number(this->x)+","+QString::number(this->y)+")");
     actualizar_interfaz_aux(2,QString::number(this->arj->n_elementos));
     actualizar_interfaz_aux(3,QString::number(this->arj->n_elementos * *this->arj->precio_fruto));
     actualizar_interfaz_aux(4,QString::number(this->arj->perdidos));
@@ -28,7 +28,7 @@ void ARJ_thread::run(){
     int temp = 2;
     sleep(1);
     this->pos_table = this->tabla_intefaz->columnCount();
-    std::cout<<"AAAAAAAAAAAAAAAA"<<pos_table<<std::endl;
+ //   std::cout<<"AAAAAAAAAAAAAAAA"<<pos_table<<std::endl;
     this->tabla_intefaz->insertColumn(pos_table);
     while(true){
 
@@ -51,7 +51,7 @@ void ARJ_thread::run(){
         //Este for es el tiempo que dura para crecer y empezar a producir
         while(t_para_crecer > 0){
 
-            std::cout<<"\nARBOL ARJ creciendo "<<t_para_crecer<<std::endl;
+   //         std::cout<<"\nARBOL ARJ creciendo "<<t_para_crecer<<std::endl;
             t_para_crecer--;
             QThread::sleep(1);
         }
@@ -69,7 +69,7 @@ void ARJ_thread::run(){
                 this->arj->vender(1);
                 this->has_2_sell = false;
             }
-            std::cout<<"\nARBOL arj produciendo "<<i<<std::endl;
+     //       std::cout<<"\nARBOL arj produciendo "<<i<<std::endl;
 
             QThread::sleep(1);
 
@@ -80,9 +80,9 @@ void ARJ_thread::run(){
             double random = QRandomGenerator::global()->generateDouble() * 4 + 1;
             this->arj->insertValue(random);
         }
-        this->arj->inorder();
+        //this->arj->inorder();
         this->mutex_arj.unlock();
-        std::cout<<"\nARBOL Rojinegro "<<std::endl;
+       // std::cout<<"\nARBOL Rojinegro "<<std::endl;
        // QThread::sleep(1);
     }
 

@@ -5,11 +5,14 @@
 #include "QTableWidget"
 class Heap_Thread: public QThread{
 public:
-    Heap_Thread(int largo,int *a, int *b, int *c, int *d, double *e,QTableWidget* f){
+    Heap_Thread(int largo,int *a, int *b, int *c, int *d, double *e,QTableWidget* f,int g,int h){
         this->heap = new Heap(largo,a, b, c, d, e);
+        this->x = g;
+        this->y = h;
         this->tabla_intefaz = f;
     };
 
+    int x,y;
     void run();
     std::mutex mutex_heap;
     QTableWidget *tabla_intefaz;

@@ -64,6 +64,9 @@
    </property>
   </widget>
   <widget class="QTableWidget" name="tabla">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>1060</x>
@@ -102,32 +105,6 @@
      <string>Vendidos</string>
     </property>
    </row>
-  </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>1120</x>
-     <y>400</y>
-     <width>83</width>
-     <height>29</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>PushButton</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="geometry">
-    <rect>
-     <x>1230</x>
-     <y>400</y>
-     <width>83</width>
-     <height>29</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>PushButton</string>
-   </property>
   </widget>
   <widget class="QLabel" name="ovejaLabel">
    <property name="geometry">

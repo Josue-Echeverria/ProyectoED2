@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1106</width>
+    <width>886</width>
     <height>634</height>
    </rect>
   </property>
@@ -19,12 +19,12 @@
      <rect>
       <x>40</x>
       <y>30</y>
-      <width>381</width>
+      <width>311</width>
       <height>471</height>
      </rect>
     </property>
     <property name="title">
-     <string>Config de arboles</string>
+     <string>Configuracion de arboles</string>
     </property>
     <widget class="QLabel" name="label_price">
      <property name="geometry">
@@ -36,7 +36,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Rango de precio de fruta desde              a</string>
+      <string>Rango de precio de fruta desde             a</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_arbol">
@@ -72,7 +72,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>costo</string>
+      <string>Cuesta:</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_t_crec">
@@ -155,13 +155,13 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>300</y>
+       <y>310</y>
        <width>361</width>
        <height>20</height>
       </rect>
      </property>
      <property name="text">
-      <string>Cosecha             frutos cada           segundos</string>
+      <string>Cosecha             frutos cada            segundos</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit_t_cosecha">
@@ -191,14 +191,14 @@
    <widget class="QGroupBox" name="groupBox_config_plagas">
     <property name="geometry">
      <rect>
-      <x>460</x>
-      <y>40</y>
-      <width>511</width>
-      <height>471</height>
+      <x>370</x>
+      <y>30</y>
+      <width>471</width>
+      <height>261</height>
      </rect>
     </property>
     <property name="title">
-     <string>Config de plagas</string>
+     <string>Configuracion de plagas</string>
     </property>
     <widget class="QLabel" name="label_plaga">
      <property name="geometry">
@@ -242,7 +242,7 @@
      <property name="geometry">
       <rect>
        <x>150</x>
-       <y>290</y>
+       <y>130</y>
        <width>31</width>
        <height>28</height>
       </rect>
@@ -255,8 +255,8 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>300</y>
-       <width>481</width>
+       <y>140</y>
+       <width>461</width>
        <height>20</height>
       </rect>
      </property>
@@ -268,7 +268,7 @@
      <property name="geometry">
       <rect>
        <x>280</x>
-       <y>290</y>
+       <y>130</y>
        <width>31</width>
        <height>28</height>
       </rect>
@@ -281,7 +281,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>350</y>
+       <y>190</y>
        <width>321</width>
        <height>20</height>
       </rect>
@@ -294,7 +294,7 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>340</y>
+       <y>180</y>
        <width>31</width>
        <height>28</height>
       </rect>
@@ -307,7 +307,7 @@
      <property name="geometry">
       <rect>
        <x>150</x>
-       <y>340</y>
+       <y>180</y>
        <width>31</width>
        <height>28</height>
       </rect>
@@ -343,13 +343,137 @@
      <string>Guardar</string>
     </property>
    </widget>
+   <widget class="QGroupBox" name="groupBox_config_mercado">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>300</y>
+      <width>471</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Configuracion de mercado</string>
+    </property>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>211</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Se abre cada            segundos</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_t_en_abrir">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>30</y>
+       <width>31</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>211</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Precio de espantapajaros:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_t_come_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>111</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>40</y>
+       <width>211</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Permanece abierto            segundos</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_t_abierto">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>30</y>
+       <width>31</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_price_3">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>140</y>
+       <width>31</width>
+       <height>28</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_price_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>150</y>
+       <width>351</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Variacion de precio de arboles va desde           a</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_price_4">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>140</y>
+       <width>31</width>
+       <height>28</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1106</width>
+     <width>886</width>
      <height>25</height>
     </rect>
    </property>

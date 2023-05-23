@@ -6,11 +6,13 @@
 
 class ABB_Thread : public QThread{
 public:
-    ABB_Thread(int *a, int *b, int *c, int *d, double *e, QTableWidget *f){
+    ABB_Thread(int *a, int *b, int *c, int *d, double *e, QTableWidget *f,int g,int h){
         this->abb = new ABB(a, b, c, d, e);
+        this->x = g;
+        this->y = h;
         this->tabla_intefaz = f;
     };
-
+    int x,y;
     void run();
     QTableWidget *tabla_intefaz;
     int pos_table;

@@ -7,10 +7,14 @@
 
 class AVL_Thread: public QThread{
 public:
-    AVL_Thread(int *a, int *b, int *c, int *d, double *e, QTableWidget *f){
+    AVL_Thread(int *a, int *b, int *c, int *d, double *e, QTableWidget *f,int g,int h){
         this->avl = new AVL(a, b, c, d, e);
+        this->x = g;
+        this->y = h;
         this->tabla_intefaz = f;
     };
+    int x,y;
+
     QTableWidget *tabla_intefaz;
     int pos_table;
     void actualizar_interfaz();

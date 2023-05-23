@@ -2,7 +2,7 @@
 
 void ABB_Thread::actualizar_interfaz(){
     actualizar_interfaz_aux(0,"ABB");
-    //    actualizar_interfaz_aux(1,);
+    actualizar_interfaz_aux(1,"("+QString::number(this->x)+","+QString::number(this->y)+")");
     actualizar_interfaz_aux(2,QString::number(this->abb->n_elementos));
     actualizar_interfaz_aux(3,QString::number(this->abb->n_elementos * *this->abb->precio_fruto));
     actualizar_interfaz_aux(4,QString::number(this->abb->perdidos));
@@ -26,12 +26,7 @@ void ABB_Thread::run(){
     this->running = true;
     QRandomGenerator randomGenerator;
     int t_para_crecer = *this->abb->t_crecer;
-    int temp = 2;
-    sleep(2);
-
     this->pos_table = this->tabla_intefaz->columnCount();
-    std::cout<<"AAAAAAAAAAAAAAAA"<<pos_table<<std::endl;
-
     this->tabla_intefaz->insertColumn(pos_table);
     while(true){
         this->actualizar_interfaz();
@@ -52,7 +47,7 @@ void ABB_Thread::run(){
         }*/
         while(t_para_crecer > 0){
             t_para_crecer--;
-            std::cout<<"\nARBOL ABB creciendo "<<t_para_crecer<<std::endl;
+   //         std::cout<<"\nARBOL ABB creciendo "<<t_para_crecer<<std::endl;
             QThread::sleep(1);
         }
         for(int i = *this->abb->t_produ_frut; i >= 0; i--){
@@ -69,7 +64,7 @@ void ABB_Thread::run(){
                 this->abb->vender(1);
                 this->has_2_sell = false;
             }
-            std::cout<<"\nARBOL ABB produciendo "<<i<<std::endl;
+     //       std::cout<<"\nARBOL ABB produciendo "<<i<<std::endl;
 
             QThread::sleep(1);
             this->actualizar_interfaz();
@@ -82,10 +77,10 @@ void ABB_Thread::run(){
             double random = QRandomGenerator::global()->generateDouble() * 4 + 1;
             this->abb->meterABB(random);
         }
-        this->abb->inorder(this->abb->raiz);
+       // this->abb->inorder(this->abb->raiz);
         this->mutex_abb.unlock();
 
-        std::cout<<"\nARBOL ABB "<<std::endl;
+//        std::cout<<"\nARBOL ABB "<<std::endl;
       //  QThread::sleep(1);
     }
 

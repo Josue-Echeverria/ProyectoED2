@@ -6,10 +6,13 @@
 #include "QTableWidgetItem"
 class ARJ_thread : public QThread{
 public:
-    ARJ_thread(int *a, int *b, int *c, int *d, double *e,QTableWidget *f){
+    ARJ_thread(int *a, int *b, int *c, int *d, double *e,QTableWidget *f,int g,int h){
         this->arj = new RBTree(a, b, c, d, e);
+        this->x = g;
+        this->y = h;
         this->tabla_intefaz = f;
     };
+    int x,y;
 
     void run();
     QTableWidget *tabla_intefaz;

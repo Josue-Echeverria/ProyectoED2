@@ -12,6 +12,7 @@
 #include "mainwindow.h"
 #include <QMutex>
 
+#include "mercado.h"
 namespace Ui {
 class Gamewindow;
 }
@@ -27,18 +28,28 @@ public:
     QLabel* plagaLab;
     QLabel * ovejaLab;
     QLabel * cuervoLab;
-    granjero * granjeroTab;
+
+    QPixmap abb_;
+    QPixmap arj_;
+    QPixmap avl_;
+    QPixmap heap_;
+
+    QTableWidget *tabla;
+
+    granjero * granjero;
     plagaThread * plagahilo;
     plagaThread * ovejahilo;
     plagaThread * cuervohilo;
     tablero * tab;
     QMutex * mutexTablero;
+    Mercado* mercado;
     void generarLabels();
     void keyPressEvent( QKeyEvent * event);
     void verificarGranjero(int x, int y);
   ~Gamewindow();
 
 
+  void modificar_tableros(int x,int y, int algomas);
 
 private slots:
     void on_pushButton_clicked();

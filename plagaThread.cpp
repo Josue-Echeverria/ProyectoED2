@@ -9,6 +9,7 @@ void plagaThread::run(){
         QThread::sleep(tiempoSeg);
         for(int i = 0; i < cant; i++){
             aparecerPlaga();
+            QThread::sleep(1);
         }
     }
 }

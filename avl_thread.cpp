@@ -2,7 +2,7 @@
 
 void AVL_Thread::actualizar_interfaz(){
     actualizar_interfaz_aux(0,"AVL");
-    //    actualizar_interfaz_aux(1,);
+    actualizar_interfaz_aux(1,"("+QString::number(this->x)+","+QString::number(this->y)+")");
     actualizar_interfaz_aux(2,QString::number(this->avl->n_elementos));
     actualizar_interfaz_aux(3,QString::number(this->avl->n_elementos * *this->avl->precio_fruto));
     actualizar_interfaz_aux(4,QString::number(this->avl->perdidos));
@@ -30,8 +30,6 @@ void AVL_Thread::run(){
 
     this->pos_table = this->tabla_intefaz->columnCount();
     this->tabla_intefaz->insertColumn(pos_table);
-    std::cout<<"AAAAAAAAAAAAAAAA"<<pos_table<<std::endl;
-
     int temp = 2;
     while(true){
         this->actualizar_interfaz();
@@ -59,7 +57,7 @@ void AVL_Thread::run(){
              *
              */
             t_para_crecer--;
-            std::cout<<"\nARBOL AVL creciendo "<<t_para_crecer<<std::endl;
+//            std::cout<<"\nARBOL AVL creciendo "<<t_para_crecer<<std::endl;
 
             QThread::sleep(1);
         }
@@ -76,7 +74,7 @@ void AVL_Thread::run(){
                 this->avl->vender(1);
                 this->has_2_sell = false;
             }
-            std::cout<<"\nARBOL AVL produciendo "<<i<<std::endl;
+  //          std::cout<<"\nARBOL AVL produciendo "<<i<<std::endl;
 
             QThread::sleep(1);
 
@@ -86,8 +84,8 @@ void AVL_Thread::run(){
             double random = QRandomGenerator::global()->generateDouble() * 4 + 1;
             this->avl->Insertar(random);
         }
-        std::cout<<"\nARBOL avl"<<std::endl;
-        this->avl->InOrden(Mostrar);
+    //    std::cout<<"\nARBOL avl"<<std::endl;
+      //  this->avl->InOrden(Mostrar);
         this->mutex_avl.unlock();
 
 //        QThread::sleep(2);
