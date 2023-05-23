@@ -10,6 +10,7 @@
 #include "tablero.h"
 #include <iostream>
 #include "mainwindow.h"
+#include <QMutex>
 
 namespace Ui {
 class Gamewindow;
@@ -31,8 +32,10 @@ public:
     plagaThread * ovejahilo;
     plagaThread * cuervohilo;
     tablero * tab;
+    QMutex * mutexTablero;
     void generarLabels();
     void keyPressEvent( QKeyEvent * event);
+    void verificarGranjero(int x, int y);
   ~Gamewindow();
 
 

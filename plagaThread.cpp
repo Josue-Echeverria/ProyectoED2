@@ -2,13 +2,13 @@
 void plagaThread::run(){
     this->running = true;
     while(true){
-        while(plagaLabel->isVisible())
+        while(plagaLabel->isVisible()){
             QThread::sleep(1);
+            //verificarGranjero();
+        }
         QThread::sleep(tiempoSeg);
         for(int i = 0; i < cant; i++){
             aparecerPlaga();
-            std::cout<<"raadion: "<<std::endl;
-            QThread::sleep(1);
         }
     }
 }
@@ -30,9 +30,11 @@ void plagaThread::aparecerPlaga(){
             randomy =  QRandomGenerator::global()->generateDouble() * 7 + 1;
             casilla * enUso = tab->Tablero[randomx][randomy];
             if(enUso->plaga == 0 && enUso->espantaPaj == false && enUso->granjero ==false){
+                //QMutexLocker Locker(mutexTab);
                 enUso->plaga = tipo;
                 plagaLabel->setVisible(true);
                 plagaLabel->setGeometry(enUso->x, enUso->y, 50, 50);
+                //mutexTab->unlock();
                 break;
             }
         }
@@ -41,8 +43,4 @@ void plagaThread::aparecerPlaga(){
 
 void plagaThread::esconderPlaga(){
     plagaLabel->setVisible(false);
-}
-
-void verificarGranjero(int x, int y){
-
 }

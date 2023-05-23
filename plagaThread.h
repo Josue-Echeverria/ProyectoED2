@@ -4,6 +4,8 @@
 #include <QLabel>
 #include <QRandomGenerator>
 #include "tablero.h"
+#include "granjero.h"
+#include <QMutex>
 class plagaThread : public QThread{
 public:
     bool activas;
@@ -16,7 +18,9 @@ public:
     int tiempoSegComen;
     int tipo;
     tablero *tab;
-    plagaThread(QLabel *plagaLabel, int probabilidad, int cant, int tiempoSeg, int frutosComen, int tiempoSegComen, int tipo, tablero *tab){
+    granjero *granj;
+    QMutex *mutexTab;
+    plagaThread(QLabel *plagaLabel, int probabilidad, int cant, int tiempoSeg, int frutosComen, int tiempoSegComen, int tipo, tablero *tab, granjero *granj, QMutex *mutexTab){
         activas = false;
         this->plagaLabel = plagaLabel;
         this->probabilidad = probabilidad;
@@ -25,12 +29,15 @@ public:
         this->frutosComen = frutosComen;
         this->tiempoSegComen = tiempoSegComen;
         this->tab = tab;
-        this->tipo = tipo;
+        this->tipo = tipo; // 0 = vacio, 1 = oveja, 2 = cuervo, 3 = plaga.
+        this->granj = granj;
+        this->mutexTab = mutexTab;
     }
     bool pregunteProbabilidad();
     void aparecerPlaga();
     void esconderPlaga();
-    void verificarGranjero(int, int);
+    void eliminarPlaga();
+    void verificarGranjero();
 
     void run();
 };
