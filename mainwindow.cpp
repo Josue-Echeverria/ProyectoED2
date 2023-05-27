@@ -1,15 +1,22 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent, int *cost_abb ,int *cost_avl ,int *cost_arj ,int *cost_heap ,
+MainWindow::MainWindow(QWidget *parent, double *cost_abb ,double *cost_avl ,double *cost_arj ,double *cost_heap ,
                        int *t_cres_abb ,int *t_cres_avl ,int *t_cres_arj ,int *t_cres_heap ,
                        int *cos_abb ,int *cos_avl ,int *cos_arj ,int *cos_heap ,
                        int *tcos_abb ,int *tcos_avl ,int *tcos_arj ,int *tcos_heap ,
                        double *prec_fru_abb ,double *prec_fru_avl ,double *prec_fru_arj ,double *prec_fru_heap,
-                       int *costo_espantapajaros)
+                       double *costo_espantapajaros, int *t_mercado_abrir, int *t_mercado_abierto,
+                       int *mercado_rango1,int *mercado_rango2)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    this->t_mercado_abierto = t_mercado_abierto;
+    this->t_mercado_abrir = t_mercado_abrir;
+
+    this->mercado_rango1 = mercado_rango1;
+    this->mercado_rango2 = mercado_rango2;
+
     this->costo_espantapajaros = costo_espantapajaros;
 
     this->costo_abb = cost_abb;
@@ -47,8 +54,6 @@ MainWindow::~MainWindow()
 
 
 
-
-
 void MainWindow::on_pushButton_guardar_clicked()
 {
     int arbol_index = findChild<QComboBox*>("comboBox_arboles")->currentIndex();
@@ -58,9 +63,21 @@ void MainWindow::on_pushButton_guardar_clicked()
     QString d= findChild<QLineEdit*>("lineEdit_price")->text();
     QString f= findChild<QLineEdit*>("lineEdit_price_2")->text();
     QString e= findChild<QLineEdit*>("lineEdit_t_crec")->text();
+    QString h= findChild<QLineEdit*>("lineEdit_precio_espantapajaros")->text();
+    QString i= findChild<QLineEdit*>("lineEdit_t_abierto")->text();
+    QString j= findChild<QLineEdit*>("lineEdit_t_en_abrir")->text();
+    QString k= findChild<QLineEdit*>("lineEdit_price_3")->text();
+    QString l= findChild<QLineEdit*>("lineEdit_price_4")->text();
 
     double randomprice = QRandomGenerator::global()->bounded(d.toInt(), f.toInt()); // Generate random number between 50 and 100
 
+    *this->t_mercado_abierto = i.toInt();
+    *this->t_mercado_abrir = j.toInt();
+
+    *this->mercado_rango1 = k.toInt();
+    *this->mercado_rango2 = l.toInt();
+
+    *this->costo_espantapajaros = h.toDouble();
     switch(arbol_index){
 
     case 0:

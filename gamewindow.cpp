@@ -25,12 +25,12 @@ Gamewindow::Gamewindow(QWidget *parent,MainWindow *m):
     this->arj_ = arj_imagen;
     QPixmap heap_imagen("C:/Users/Asus/Repositories/ProyectoED2/Heap_matriz.png");
     this->heap_ = heap_imagen;
-
+    this->table_pos = findChild<QComboBox*>("comboBox");
     tabla = findChild<QTableWidget*>("tabla");
 //    tabla->setEditTriggers(QAbstractItemView::NoEditTriggers);
     tabla->setFocusPolicy(Qt::NoFocus);
     tabla->setSelectionMode(QAbstractItemView::NoSelection);
-
+    //pos_trees = n
     granjeroLab->setPixmap(granjero_imagen);
     plagaLab = findChild<QLabel*>("plagaLabel");
     plagaLab->setPixmap(plaga);
@@ -41,18 +41,24 @@ Gamewindow::Gamewindow(QWidget *parent,MainWindow *m):
     cuervoLab = findChild<QLabel*>("cuervoLabel");
     cuervoLab->setPixmap(cuervo);
     cuervoLab->setVisible(false);
+    this->counter_trees = 0;
     tab = new class tablero();
     granjero = new class granjero();
   //  granjero->cargaEspantajaros = true;
-    plagahilo = new plagaThread(plagaLab, 100, 1, 5, 0, 0, 3, tab, granjero, mutexTablero);
-    ovejahilo = new plagaThread(ovejaLab, 100, 1, 5, 0, 0, 1, tab, granjero, mutexTablero);
-    cuervohilo = new plagaThread(cuervoLab, 100, 1, 5, 0, 0, 1, tab, granjero, mutexTablero);
+    plagahilo = new plagaThread(plagaLab, 100, 1, 3, 0, 10, 3, tab, granjero, mutexTablero);
+    ovejahilo = new plagaThread(ovejaLab, 100, 1, 6, 0, 0, 1, tab, granjero, mutexTablero);
+    cuervohilo = new plagaThread(cuervoLab, 100, 1, 9, 0, 0, 1, tab, granjero, mutexTablero);
+//    plagaThread(QLabel *plagaLabel, int probabilidad, int cant, int tiempoSeg, int frutosComen, int tiempoSegComen, int tipo, tablero *tab, granjero *granj, QMutex *mutexTab){
+
+    this->pos_trees = new QHash<int,QVector<int>>;
+    mercado_thread = new class mercado_thread(this->main_window->t_mercado_abierto,this->main_window->t_mercado_abrir,findChild<QLabel*>("label_mercado"),&this->granjero->dinero,findChild<QLabel*>("label_plata"));
+    mercado_thread->start();
     granjeroLab->setGeometry(60,80,50,50);
     plagaLab->setGeometry(60,80,50,50);
     generarLabels();
     cuervohilo->start();
     plagahilo->start();
-    ovejahilo->start();
+    ovejahilo->start();/**/
 }
 
 Gamewindow::~Gamewindow()
@@ -67,9 +73,7 @@ void Gamewindow::generarLabels(){
     for (int x = 0; x < 8; x++) {
         for(int y = 0; y<8; y++){
             parcelas[x][y] = new QLabel(this);
-            //tablero[x][y]->setText("lola");
             parcelas[x][y]->setStyleSheet("border: 1px solid black");
-            //tablero[x][y]->QLineEdit(border: 1px solid white);
             layout->addWidget(parcelas[x][y], x, y);
         }
     }
@@ -83,7 +87,7 @@ void Gamewindow::keyPressEvent(QKeyEvent * event)
     //tabla->setDisabled(true);
     int py = granjeroLab->y();
     int px = granjeroLab->x();
-    if( event->key() == Qt::Key_Down)
+    if( event->key() == Qt::Key_S)
     {
         py += 77;
         if(py > 619)
@@ -91,7 +95,7 @@ void Gamewindow::keyPressEvent(QKeyEvent * event)
         granjeroLab->setGeometry(px,py,50,50);
         verificarGranjero(px, py);
     }
-    else if( event->key() == Qt::Key_Up)
+    else if( event->key() == Qt::Key_W)
     {
         py -= 77;
         if(py < 80)
@@ -99,7 +103,7 @@ void Gamewindow::keyPressEvent(QKeyEvent * event)
         granjeroLab->setGeometry(px,py,50,50);
         verificarGranjero(px, py);
     }
-    else if( event->key() == Qt::Key_Right)
+    else if( event->key() == Qt::Key_D)
     {
         px += 125;
         if(px > 935)
@@ -107,7 +111,7 @@ void Gamewindow::keyPressEvent(QKeyEvent * event)
         granjeroLab->setGeometry(px,py,50,50);
         verificarGranjero(px, py);
     }
-    else if( event->key() == Qt::Key_Left)
+    else if( event->key() == Qt::Key_A)
     {
         px -= 125;
         if(px < 60)
@@ -119,46 +123,59 @@ void Gamewindow::keyPressEvent(QKeyEvent * event)
         this->main_window->show();
     }
     else if( event->key() == Qt::Key_F2){
-        this->mercado = new Mercado(NULL,*this->main_window->costo_abb,*this->main_window->costo_avl,*this->main_window->costo_arj,*this->main_window->costo_heap,
-                                    *this->main_window->t_crecimien_abb,*this->main_window->t_crecimien_avl,*this->main_window->t_crecimien_arj,*this->main_window->t_crecimien_heap,
-                                    *this->main_window->cosecha_abb,*this->main_window->cosecha_avl,*this->main_window->cosecha_arj,*this->main_window->cosecha_heap,
-                                    *this->main_window->cosecha_cada_t_abb,*this->main_window->cosecha_cada_t_avl,*this->main_window->cosecha_cada_t_arj,*this->main_window->cosecha_cada_t_heap,
-                                    *this->main_window->precio_frut_abb,*this->main_window->precio_frut_avl,*this->main_window->precio_frut_arj,*this->main_window->precio_frut_heap,
-                                    this->granjero,*this->main_window->costo_espantapajaros);
-        this->mercado->show();
+        if(this->mercado_thread->abierto){
+            this->mercado = new Mercado(NULL,*this->main_window->costo_abb,*this->main_window->costo_avl,*this->main_window->costo_arj,*this->main_window->costo_heap,
+                                        *this->main_window->t_crecimien_abb,*this->main_window->t_crecimien_avl,*this->main_window->t_crecimien_arj,*this->main_window->t_crecimien_heap,
+                                        *this->main_window->cosecha_abb,*this->main_window->cosecha_avl,*this->main_window->cosecha_arj,*this->main_window->cosecha_heap,
+                                        *this->main_window->cosecha_cada_t_abb,*this->main_window->cosecha_cada_t_avl,*this->main_window->cosecha_cada_t_arj,*this->main_window->cosecha_cada_t_heap,
+                                        *this->main_window->precio_frut_abb,*this->main_window->precio_frut_avl,*this->main_window->precio_frut_arj,*this->main_window->precio_frut_heap,
+                                        this->granjero,*this->main_window->costo_espantapajaros,1,10);//*this->main_window->mercado_rango1,*this->main_window->mercado_rango2);
+            this->mercado->show();
+        }
     }
     else if( event->key() == Qt::Key_F3){
-
         int posy_matriz = (py-80)/77;
         int posx_matriz = (px-60)/125;
 
         if(this->granjero->cargaArbolTipo == 1){ // 0 = vacio, 1 = ABB, 2 = ARJ, 3 = AVL, 4 = Heap.
             this->tab->modificarArbol(posx_matriz,posy_matriz,1,this->main_window->t_crecimien_abb,
                                       this->main_window->cosecha_cada_t_abb,this->main_window->cosecha_abb,
-                                      this->main_window->costo_abb,this->main_window->precio_frut_abb,tabla);
+                                      this->main_window->costo_abb,this->main_window->precio_frut_abb,tabla,
+                                      &this->granjero->dinero);
             parcelas[posy_matriz][posx_matriz]->setPixmap(this->abb_);
             this->granjero->cargaArbolTipo = 0;
+            this->pos_trees->insert(counter_trees,{posx_matriz,posy_matriz});
+            this->table_pos->insertItem(counter_trees,QString::number(++counter_trees));
         }
         if(this->granjero->cargaArbolTipo == 2){ // 0 = vacio, 1 = ABB, 2 = ARJ, 3 = AVL, 4 = Heap.
             this->tab->modificarArbol(posx_matriz,posy_matriz,2,this->main_window->t_crecimien_arj,
                                       this->main_window->cosecha_cada_t_arj,this->main_window->cosecha_arj,
-                                      this->main_window->costo_arj,this->main_window->precio_frut_arj,tabla);
+                                      this->main_window->costo_arj,this->main_window->precio_frut_arj,tabla,
+                                      &this->granjero->dinero);
             parcelas[posy_matriz][posx_matriz]->setPixmap(this->arj_);
             this->granjero->cargaArbolTipo = 0;
+            this->pos_trees->insert(counter_trees,{posx_matriz,posy_matriz});
+            this->table_pos->insertItem(counter_trees,QString::number(++counter_trees));
         }
         if(this->granjero->cargaArbolTipo == 3){ // 0 = vacio, 1 = ABB, 2 = ARJ, 3 = AVL, 4 = Heap.
             this->tab->modificarArbol(posx_matriz,posy_matriz,3,this->main_window->t_crecimien_avl,
                                       this->main_window->cosecha_cada_t_avl,this->main_window->cosecha_avl,
-                                      this->main_window->costo_avl,this->main_window->precio_frut_avl,tabla);
+                                      this->main_window->costo_avl,this->main_window->precio_frut_avl,tabla,
+                                      &this->granjero->dinero);
             parcelas[posy_matriz][posx_matriz]->setPixmap(this->avl_);
             this->granjero->cargaArbolTipo = 0;
+            this->pos_trees->insert(counter_trees,{posx_matriz,posy_matriz});
+            this->table_pos->insertItem(counter_trees,QString::number(++counter_trees));
         }
         if(this->granjero->cargaArbolTipo == 4){ // 0 = vacio, 1 = ABB, 2 = ARJ, 3 = AVL, 4 = Heap.
             this->tab->modificarArbol(posx_matriz,posy_matriz,4,this->main_window->t_crecimien_heap,
                                       this->main_window->cosecha_cada_t_heap,this->main_window->cosecha_heap,
-                                      this->main_window->costo_heap,this->main_window->precio_frut_heap,tabla);
+                                      this->main_window->costo_heap,this->main_window->precio_frut_heap,tabla,
+                                      &this->granjero->dinero);
             parcelas[posy_matriz][posx_matriz]->setPixmap(this->heap_);
             this->granjero->cargaArbolTipo = 0;
+            this->pos_trees->insert(counter_trees,{posx_matriz,posy_matriz});
+            this->table_pos->insertItem(counter_trees,QString::number(++counter_trees));
         }
     }
     else if(event->key() == Qt::Key_F4){
@@ -170,31 +187,83 @@ void Gamewindow::keyPressEvent(QKeyEvent * event)
             parcelas[posy_matriz][posx_matriz]->setPixmap(espantapajaro);
             granjero->cargaEspantajaros = false;
         }
+    }/*
+    else if(event->key() == Qt::Key_W){
+        std::cout<<"WWWW"<<std::endl;
+
     }
+    else if(event->key() == Qt::Key_A){
+        std::cout<<"AAAA"<<std::endl;
+
+    }
+    else if(event->key() == Qt::Key_S){
+        std::cout<<"SSSS"<<std::endl;
+
+    }
+    else if(event->key() == Qt::Key_D){
+        std::cout<<"DDDD"<<std::endl;
+
+    }*/
 }
    // tabla->setDisabled(false);
 
 void Gamewindow::verificarGranjero(int x, int y){
-    if(plagaLab->x() == x && plagaLab->y() == y){
-        plagaLab->setVisible(false);
+    if((plagaLab->x() == x) && (plagaLab->y() == y)){
+        //plagaLab->setVisible(false);
     }
-    else if(ovejaLab->x() == x && ovejaLab->y() == y){
-        ovejaLab->setVisible(false);
+    else if((ovejaLab->x() == x) & (ovejaLab->y() == y)){
+    //    ovejaLab->setVisible(false);
     }
-    else if(cuervoLab->x() == x && cuervoLab->y() == y){
-        cuervoLab->setVisible(false);
+    else if((cuervoLab->x() == x) && (cuervoLab->y() == y)){
+      //  cuervoLab->setVisible(false);
     }
 }
 
 
 void Gamewindow::on_pushButton_clicked()
 {
+    int t = this->table_pos->currentIndex();
+    if(pos_trees->contains(t)){
+        QVector<int> A = this->pos_trees->value(t);
+        switch(this->tab->casillaEnPos(A[0],A[1])->arbol){// 0 = vacio, 1 = ABB, 2 = ARJ, 3 = AVL, 4 = Heap.
+        case 1:
+            this->tab->casillaEnPos(A[0],A[1])->Abb->has_2_sell = true;
+            break;
+        case 2:
+            this->tab->casillaEnPos(A[0],A[1])->Arj->has_2_sell = true;
+            break;
+        case 3:
+            this->tab->casillaEnPos(A[0],A[1])->Avl->has_2_sell = true;
+            break;
+        case 4:
+            this->tab->casillaEnPos(A[0],A[1])->Heap->has_2_sell = true;
+            break;
 
+        }
+    }
 }
 
 
 void Gamewindow::on_pushButton_2_clicked()
 {
+    int t = this->table_pos->currentIndex();
+    if(pos_trees->contains(t)){
+        QVector<int> A = this->pos_trees->value(t);
+        switch(this->tab->casillaEnPos(A[0],A[1])->arbol){// 0 = vacio, 1 = ABB, 2 = ARJ, 3 = AVL, 4 = Heap.
+        case 1:
+            this->tab->casillaEnPos(A[0],A[1])->Abb->has_2_sell_all = true;
+            break;
+        case 2:
+            this->tab->casillaEnPos(A[0],A[1])->Arj->has_2_sell_all = true;
+            break;
+        case 3:
+            this->tab->casillaEnPos(A[0],A[1])->Avl->has_2_sell_all = true;
+            break;
+        case 4:
+            this->tab->casillaEnPos(A[0],A[1])->Heap->has_2_sell_all = true;
+            break;
 
+        }
+    }
 }
 

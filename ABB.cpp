@@ -1,6 +1,6 @@
 #include "ABB.h"
 
-ABB::ABB(int *a, int *b, int *c, int *d, double *e){
+ABB::ABB(int *a, int *b, int *c, double *d, double *e){
     raiz = NULL;
     this->t_crecer = a;
     this->t_produ_frut = b;

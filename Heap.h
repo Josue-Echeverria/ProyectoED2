@@ -15,7 +15,7 @@ class Heap{
     int *t_crecer;
     int *t_produ_frut;
     int *n_produ_frut;
-    int *costo;
+    double *costo;
     double *precio_fruto;
     int perdidos = 0;
     int vendidos = 0;
@@ -23,7 +23,7 @@ class Heap{
     double vender(int);
     void comer(int);
 
-    Heap(int lar,int *a, int *b, int *c, int *d, double *e);
+    Heap(int lar,int *a, int *b, int *c, double *d, double *e);
 
     void insertar(double n);
 

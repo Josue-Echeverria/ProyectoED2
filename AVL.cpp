@@ -2,7 +2,6 @@
 void AVL::comer(int n){
     while(n > 0 & n_elementos > 0){
         if(this->del_min() != -1){
-            std::cout<<"\nLo elimine"<<std::endl;
             n--;
             this->perdidos++;
         }else
@@ -14,8 +13,7 @@ double AVL::vender(int n){
     double acumulador = 0;
     if(n == -1){
         acumulador = this->n_elementos**this->precio_fruto;
-        this->raiz = NULL;
-        this->actual = NULL;
+        this->root = NULL;
         this->vendidos += this->n_elementos;
         this->n_elementos = 0;
         return acumulador;
@@ -32,391 +30,280 @@ double AVL::vender(int n){
     return acumulador;
 }
 
-// Poda: borrar todos los nodos a partir de uno, incluido
-void AVL::Podar(Nodo* &nodo)
+struct node *AVL::inpre(struct node *p)
 {
-   // Algoritmo recursivo, recorrido en postorden
-   if(nodo) {
-      Podar(nodo->izquierdo); // Podar izquierdo
-      Podar(nodo->derecho);   // Podar derecho
-      delete nodo;            // Eliminar nodo
-      nodo = NULL;
-   }
+    while (p->right != NULL)
+        p = p->right;
+    return p;
 }
-Nodo *AVL::get_min(Nodo *node){
-   if(node != NULL){
-       while (node->izquierdo != NULL) {
-          node = node->izquierdo;
-        }
-        return node;
-   }
-   return NULL;
+
+struct node *AVL::insuc(struct node *p){
+    while (p->left != NULL)
+        p = p->left;
+    return p;
 }
 
 double AVL::del_min(){
-    Nodo *min = get_min(this->raiz);
+   node *min = insuc(this->root);
    if(min!= NULL){
-        double temp = Buscar(min->dato)->dato;
-        Borrar(min->dato);
+        //double temp = Buscar(min->data)->data;
+        deleteNode(this->root,min->data);
         this->n_elementos--;
-        return temp;
+        return 1;
    }
    return -1;
 }
 
-// Insertar un dato en el árbol AVL
-void AVL::Insertar(const double dat)
+int height(node *N)
 {
-   Nodo *padre = NULL;
-   //cout << "Insertar: " << dat << endl;
-   actual = raiz;
-   // Buscar el dato en el árbol, manteniendo un puntero al nodo padre
-   while(!Vacio(actual) && dat != actual->dato) {
-      padre = actual;
-      if(dat > actual->dato) actual = actual->derecho;
-      else if(dat < actual->dato) actual = actual->izquierdo;
-   }
-
-   // Si se ha encontrado el elemento, regresar sin insertar
-   if(!Vacio(actual)) return;
-   // Si padre es NULL, entonces el árbol estaba vacío, el nuevo nodo será
-   // el nodo raiz
-   if(Vacio(padre)) raiz = new Nodo(dat);
-   // Si el dato es menor que el que contiene el nodo padre, lo insertamos
-   // en la rama izquierda
-   else if(dat < padre->dato) {
-      padre->izquierdo = new Nodo(dat, padre);
-      Equilibrar(padre, IZQUIERDO, true);
-   }
-   // Si el dato es mayor que el que contiene el nodo padre, lo insertamos
-   // en la rama derecha
-   else if(dat > padre->dato) {
-      padre->derecho = new Nodo(dat, padre);
-      Equilibrar(padre, DERECHO, true);
-   }
-   this->n_elementos++;
-
+   if (N == NULL)
+        return 0;
+   return N->height;
 }
 
-// Equilibrar árbol AVL partiendo del nodo nuevo
-void AVL::Equilibrar(Nodo *nodo, int rama, bool nuevo)
-{
-   bool salir = false;
-
-   // Recorrer camino inverso actualizando valores de FE:
-   while(nodo && !salir) {
-      if(nuevo)
-         if(rama == IZQUIERDO) nodo->FE--; // Depende de si añadimos ...
-         else                  nodo->FE++;
-      else
-         if(rama == IZQUIERDO) nodo->FE++; // ... o borramos
-         else                  nodo->FE--;
-      if(nodo->FE == 0) salir = true; // La altura de las rama que
-                                      // empieza en nodo no ha variado,
-                                      // salir de Equilibrar
-      else if(nodo->FE == -2) { // Rotar a derechas y salir:
-         if(nodo->izquierdo->FE == 1) RDD(nodo); // Rotación doble
-         else RSD(nodo);                         // Rotación simple
-         salir = true;
-      }
-      else if(nodo->FE == 2) {  // Rotar a izquierdas y salir:
-         if(nodo->derecho->FE == -1) RDI(nodo); // Rotación doble
-         else RSI(nodo);                        // Rotación simple
-         salir = true;
-      }
-      if(nodo->padre)
-         if(nodo->padre->derecho == nodo) rama = DERECHO; else rama = IZQUIERDO;
-      nodo = nodo->padre; // Calcular FE, siguiente nodo del camino.
+int bf(struct node *n){
+   if (n->left && n->right){
+        return n->left->height - n->right->height;
+   }else if (n->left && n->right == NULL){
+        return n->left->height;
+   }else if (n->left == NULL && n->right){
+        return -n->right->height;
    }
 }
 
-// Rotación doble a derechas
-void AVL::RDD(Nodo* nodo)
+struct node *llrotation(struct node *n){
+   struct node *p;
+   struct node *tp;
+   p = n;
+   tp = p->left;
+   p->left = tp->right;
+   tp->right = p;
+
+   return tp;
+}
+
+
+
+node *rrrotation(node *y)
 {
-   cout << "RDD" << endl;
-   Nodo *Padre = nodo->padre;
-   Nodo *P = nodo;
-   Nodo *Q = P->izquierdo;
-   Nodo *R = Q->derecho;
-   Nodo *B = R->izquierdo;
-   Nodo *C = R->derecho;
+   node *x = y->left;
+   node *T2 = x->right;
 
-   if(Padre)
-     if(Padre->derecho == nodo) Padre->derecho = R;
-     else Padre->izquierdo = R;
-   else raiz = R;
+   // Perform rotation
+   x->right = y;
+   y->left = T2;
 
-   // Reconstruir árbol:
-   Q->derecho = B;
-   P->izquierdo = C;
-   R->izquierdo = Q;
-   R->derecho = P;
+   // Update heights
+   y->height = max(height(y->left),
+                   height(y->right)) + 1;
+   x->height = max(height(x->left),
+                   height(x->right)) + 1;
 
-   // Reasignar padres:
-   R->padre = Padre;
-   P->padre = Q->padre = R;
-   if(B) B->padre = Q;
-   if(C) C->padre = P;
+   // Return new root
+   return x;
+}
 
-   // Ajustar valores de FE:
-   switch(R->FE) {
-      case -1: Q->FE = 0; P->FE = 1; break;
-      case 0:  Q->FE = 0; P->FE = 0; break;
-      case 1:  Q->FE = -1; P->FE = 0; break;
+struct node * rlrotation(struct node *n)
+{
+   struct node *p;
+   struct node *tp;
+   struct node *tp2;
+   p = n;
+   tp = p->right;
+   tp2 = p->right->left;
+
+   p->right = tp2->left;
+   tp->left = tp2->right;
+   tp2->left = p;
+   tp2->right = tp;
+
+   return tp2;
+}
+
+struct node *lrrotation(struct node *n)
+{
+   struct node *p;
+   struct node *tp;
+   struct node *tp2;
+   p = n;
+   tp = p->left;
+   tp2 = p->left->right;
+
+   p->left = tp2->right;
+   tp->right = tp2->left;
+   tp2->right = p;
+   tp2->left = tp;
+
+   return tp2;
+}
+
+node *AVL::insert(node *&r, double data){
+   if (r == NULL){
+        struct node *n;
+        n = new struct node;
+        n->data = data;
+        r = n;
+        r->left = r->right = NULL;
+        r->height = 1;
+        return r;
+   } else {
+        if (data < r->data)
+          r->left = insert(r->left, data);
+        else
+          r->right = insert(r->right, data);
    }
-   R->FE = 0;
-}
+   //r->height = calheight(r);
 
-// Rotación doble a izquierdas
-void AVL::RDI(Nodo* nodo)
-{
-   cout << "RDI" << endl;
-   Nodo *Padre = nodo->padre;
-   Nodo *P = nodo;
-   Nodo *Q = P->derecho;
-   Nodo *R = Q->izquierdo;
-   Nodo *B = R->izquierdo;
-   Nodo *C = R->derecho;
-
-   if(Padre)
-     if(Padre->derecho == nodo) Padre->derecho = R;
-     else Padre->izquierdo = R;
-   else raiz = R;
-
-   // Reconstruir árbol:
-   P->derecho = B;
-   Q->izquierdo = C;
-   R->izquierdo = P;
-   R->derecho = Q;
-
-   // Reasignar padres:
-   R->padre = Padre;
-   P->padre = Q->padre = R;
-   if(B) B->padre = P;
-   if(C) C->padre = Q;
-
-   // Ajustar valores de FE:
-   switch(R->FE) {
-      case -1: P->FE = 0; Q->FE = 1; break;
-      case 0:  P->FE = 0; Q->FE = 0; break;
-      case 1:  P->FE = -1; Q->FE = 0; break;
+   if (bf(r) == 2 && bf(r->left) == 1){
+        r = llrotation(r);
    }
-   R->FE = 0;
-}
-
-// Rotación simple a derechas
-void AVL::RSD(Nodo* nodo)
-{
-   cout << "RSD" << endl;
-   Nodo *Padre = nodo->padre;
-   Nodo *P = nodo;
-   Nodo *Q = P->izquierdo;
-   Nodo *B = Q->derecho;
-
-   if(Padre)
-     if(Padre->derecho == P) Padre->derecho = Q;
-     else Padre->izquierdo = Q;
-   else raiz = Q;
-
-   // Reconstruir árbol:
-   P->izquierdo = B;
-   Q->derecho = P;
-
-   // Reasignar padres:
-   P->padre = Q;
-   if(B) B->padre = P;
-   Q->padre = Padre;
-
-   // Ajustar valores de FE:
-   P->FE = 0;
-   Q->FE = 0;
-}
-
-// Rotación simple a izquierdas
-void AVL::RSI(Nodo* nodo)
-{
-   cout << "RSI" << endl;
-   Nodo *Padre = nodo->padre;
-   Nodo *P = nodo;
-   Nodo *Q = P->derecho;
-   Nodo *B = Q->izquierdo;
-
-   if(Padre)
-     if(Padre->derecho == P) Padre->derecho = Q;
-     else Padre->izquierdo = Q;
-   else raiz = Q;
-
-   // Reconstruir árbol:
-   P->derecho = B;
-   Q->izquierdo = P;
-
-   // Reasignar padres:
-   P->padre = Q;
-   if(B) B->padre = P;
-   Q->padre = Padre;
-
-   // Ajustar valores de FE:
-   P->FE = 0;
-   Q->FE = 0;
-}
-
-// Eliminar un elemento de un árbol AVL
-void AVL::Borrar(const double dat)
-{
-   Nodo *padre = NULL;
-   Nodo *nodo;
-   double aux;
-
-   actual = raiz;
-   // Mientras sea posible que el valor esté en el árbol
-   while(!Vacio(actual)) {
-      if(dat == actual->dato) { // Si el valor está en el nodo actual
-         if(EsHoja(actual)) { // Y si además es un nodo hoja: lo borramos
-            if(padre) // Si tiene padre (no es el nodo raiz)
-               // Anulamos el puntero que le hace referencia
-               if(padre->derecho == actual) padre->derecho = NULL;
-               else if(padre->izquierdo == actual) padre->izquierdo = NULL;
-            delete actual; // Borrar el nodo
-            actual = NULL;
-            // El nodo padre del actual puede ser ahora un nodo hoja, por lo tanto su
-            // FE es cero, pero debemos seguir el camino a partir de su padre, si existe.
-            if((padre->derecho == actual && padre->FE == 1) ||
-               (padre->izquierdo == actual && padre->FE == -1)) {
-               padre->FE = 0;
-               actual = padre;
-               padre = actual->padre;
-            }
-            if(padre)
-               if(padre->derecho == actual) Equilibrar(padre, DERECHO, false);
-               else                         Equilibrar(padre, IZQUIERDO, false);
-            return;
-         }
-         else { // Si el valor está en el nodo actual, pero no es hoja
-            // Buscar nodo
-            padre = actual;
-            // Buscar nodo más izquierdo de rama derecha
-            if(actual->derecho) {
-               nodo = actual->derecho;
-               while(nodo->izquierdo) {
-                  padre = nodo;
-                  nodo = nodo->izquierdo;
-               }
-            }
-            // O buscar nodo más derecho de rama izquierda
-            else {
-               nodo = actual->izquierdo;
-               while(nodo->derecho) {
-                  padre = nodo;
-                  nodo = nodo->derecho;
-               }
-            }
-            // Intercambiar valores de no a borrar u nodo encontrado
-            // y continuar, cerrando el bucle. El nodo encontrado no tiene
-            // por qué ser un nodo hoja, cerrando el bucle nos aseguramos
-            // de que sólo se eliminan nodos hoja.
-            aux = actual->dato;
-            actual->dato = nodo->dato;
-            nodo->dato = aux;
-            actual = nodo;
-         }
-      }
-      else { // Todavía no hemos encontrado el valor, seguir buscándolo
-         padre = actual;
-         if(dat > actual->dato) actual = actual->derecho;
-         else if(dat < actual->dato) actual = actual->izquierdo;
-      }
+   else if (bf(r) == -2 && bf(r->right) == -1){
+        r = rrrotation(r);
    }
+   else if (bf(r) == -2 && bf(r->right) == 1){
+        r = rlrotation(r);
+   }
+   else if (bf(r) == 2 && bf(r->left) == -1){
+        r = lrrotation(r);
+   }
+   return r;
+
 }
 
-// Buscar un valor en el árbol
-Nodo *AVL::Buscar(const double dat)
+struct node* AVL::deleteNode(struct node *&p, double data){
+   if (p->left == NULL && p->right == NULL){
+        if (p == this->root)
+          this->root = NULL;
+        p = NULL;
+        delete p;
+        return NULL;
+   }
+   struct node *t;
+   struct node *q;
+   if (p->data < data){
+        p->right = deleteNode(p->right, data);
+   }
+   else if (p->data > data){
+        p->left = deleteNode(p->left, data);
+   }
+   else{
+        if (p->left != NULL){
+          q = inpre(p->left);
+          p->data = q->data;
+          p->left = deleteNode(p->left, q->data);
+        } else {
+          q = insuc(p->right);
+          p->data = q->data;
+          p->right = deleteNode(p->right, q->data);
+        }
+   }
+
+   if (bf(p) == 2 && bf(p->left) == 1){
+        p = llrotation(p);
+   }else if (bf(p) == 2 && bf(p->left) == -1){
+        p = lrrotation(p);
+   }else if (bf(p) == 2 && bf(p->left) == 0){
+        p = llrotation(p);
+   }else if (bf(p) == -2 && bf(p->right) == -1){
+        p = rrrotation(p);
+   }else if (bf(p) == -2 && bf(p->right) == 1){
+        p = rlrotation(p);
+   }else if (bf(p) == -2 && bf(p->right) == 0){
+        p = llrotation(p);
+   }
+   return p;
+}
+
+node *AVL::Buscar(const double dat)
 {
-   actual = raiz;
+   node *actual = root;
 
    // Todavía puede aparecer, ya que quedan nodos por mirar
    while(!Vacio(actual)) {
-      if(dat == actual->dato) return actual; // dato encontrado
-      else if(dat > actual->dato) actual = actual->derecho; // Seguir
-      else if(dat < actual->dato) actual = actual->izquierdo;
+      if(dat == actual->data) return actual; // dato encontrado
+      else if(dat > actual->data) actual = actual->right; // Seguir
+      else if(dat < actual->data) actual = actual->left;
    }
    return NULL; // No está en árbol
 }
 
-// Calcular la altura del nodo que contiene el dato dat
-int AVL::Altura(const int dat)
+void Mostrar(node *nodo)
 {
-   int altura = 0;
-   actual = raiz;
-
-   // Todavía puede aparecer, ya que quedan nodos por mirar
-   while(!Vacio(actual)) {
-      if(dat == actual->dato) return altura; // dato encontrado
-      else {
-         altura++; // Incrementamos la altura, seguimos buscando
-         if(dat > actual->dato) actual = actual->derecho;
-         else if(dat < actual->dato) actual = actual->izquierdo;
-      }
+   if(nodo == NULL){
+      return;
    }
-   return -1; // No está en árbol
+
+   Mostrar(nodo->left);
+   std::cout << nodo->data << std::endl;
+   Mostrar(nodo->right);
 }
 
-// Contar el número de nodos
-const int AVL::NumeroNodos()
+void AVL::InOrden()
 {
-   contador = 0;
-
-   auxContador(raiz); // FUnción auxiliar
-   return contador;
+   Mostrar(this->root);
 }
 
-// Función auxiliar para contar nodos. Función recursiva de recorrido en
-//   preorden, el proceso es aumentar el contador
-void AVL::auxContador(Nodo *nodo)
-{
-   contador++;  // Otro nodo
-   // Continuar recorrido
-   if(nodo->izquierdo) auxContador(nodo->izquierdo);
-   if(nodo->derecho)   auxContador(nodo->derecho);
+
+struct node *AVL::llrotation(struct node *n){
+   struct node *p;
+   struct node *tp;
+   p = n;
+   tp = p->left;
+
+   p->left = tp->right;
+   tp->right = p;
+
+   return tp;
 }
 
-// Calcular la altura del árbol, que es la altura del nodo de mayor altura.
-const int AVL::AlturaArbol()
-{
-   altura = 0;
+struct node *AVL::rrrotation(struct node *n){
+   struct node *p;
+   struct node *tp;
+   p = n;
+   tp = p->right;
 
-   auxAltura(raiz, 0); // Función auxiliar
-   return altura;
+   p->right = tp->left;
+   tp->left = p;
+
+   return tp;
 }
 
-// Función auxiliar para calcular altura. Función recursiva de recorrido en
-// postorden, el proceso es actualizar la altura sólo en nodos hojas de mayor
-// altura de la máxima actual
-void AVL::auxAltura(Nodo *nodo, int a)
+struct node *AVL::rlrotation(struct node *n)
 {
-   // Recorrido postorden
-   if(nodo->izquierdo) auxAltura(nodo->izquierdo, a+1);
-   if(nodo->derecho)   auxAltura(nodo->derecho, a+1);
-   // Proceso, si es un nodo hoja, y su altura es mayor que la actual del
-   // árbol, actualizamos la altura actual del árbol
-   if(EsHoja(nodo) && a > altura) altura = a;
+   struct node *p;
+   struct node *tp;
+   struct node *tp2;
+   p = n;
+   tp = p->right;
+   tp2 = p->right->left;
+
+   p->right = tp2->left;
+   tp->left = tp2->right;
+   tp2->left = p;
+   tp2->right = tp;
+
+   return tp2;
 }
 
-void Mostrar(double &d, double FE)
+struct node *AVL::lrrotation(struct node *n)
 {
-   cout << d << "(" << FE << "),";
-}
+   struct node *p;
+   struct node *tp;
+   struct node *tp2;
+   p = n;
+   tp = p->left;
+   tp2 = p->left->right;
 
-void AVL::InOrden(void (*func)(double&, double) , Nodo *nodo, bool r)
-{
-   if(r) nodo = raiz;
-   if(nodo->izquierdo) InOrden(func, nodo->izquierdo, false);
-   func(nodo->dato, nodo->FE);
-   if(nodo->derecho) InOrden(func, nodo->derecho, false);
+   p->left = tp2->right;
+   tp->right = tp2->left;
+   tp2->right = p;
+   tp2->left = tp;
+
+   return tp2;
 }
 
 AVL::AVL(int *a, int *b, int *c, int *d, double *e) {
-   raiz = NULL;
-   actual= NULL;
+   root = NULL;
    this->n_elementos = 0;
 
    this->t_crecer = a;

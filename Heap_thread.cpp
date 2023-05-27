@@ -20,52 +20,40 @@ void Heap_Thread::actualizar_interfaz_aux(int row,QString text){
     item->setText(text);
 }
 void Heap_Thread::run(){
-
     this->running = true;
     QRandomGenerator randomGenerator;
-    sleep(3);
-
     int t_para_crecer = *this->heap->t_crecer;
     this->pos_table = this->tabla_intefaz->columnCount();
     this->tabla_intefaz->insertColumn(pos_table);
-    int temp = 2;
-
     while(true){
         this->actualizar_interfaz();
         while(t_para_crecer > 0){
-            /*
-             * Aqui deberia de tipo modificar la inferfaz maybe
-             *
-             */
             t_para_crecer--;
-
             QThread::sleep(1);
         }
-        for(int i = *this->heap->t_produ_frut; i >= 0; i--){
+        for(int i = *this->heap->t_produ_frut; i > 0; i--){
+            this->actualizar_interfaz();
             if(this->being_eaten){
                 this->heap->comer(n_being_eaten);
                 this->being_eaten = false;
             }
             if(this->has_2_sell_all){
-                this->heap->vender(-1);
+                *this->plata += this->heap->vender(-1);
                 this->has_2_sell_all = false;
             }
             if (this->has_2_sell){
-                this->heap->vender(1);
+                *this->plata += this->heap->vender(1);
                 this->has_2_sell = false;
             }
-    //        std::cout<<"\nARBOL heap produciendo "<<i<<std::endl;
             QThread::sleep(1);
-
         }
         this->mutex_heap.lock();
         for(int i = *this->heap->n_produ_frut; i > 0; i--){
             double random = QRandomGenerator::global()->generateDouble() * 4 + 1;
             this->heap->insertar(random);
         }
-       // this->heap->mostrar();
+        this->heap->mostrar();
       //  std::cout<<"\nARBOL heap"<<std::endl;
         this->mutex_heap.unlock();
-        // QThread::sleep(2);
     }
 }

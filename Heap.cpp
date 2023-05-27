@@ -1,6 +1,6 @@
 #include "Heap.h"
 
-Heap::Heap(int lar,int *a, int *b, int *c, int *d, double *e){
+Heap::Heap(int lar,int *a, int *b, int *c, double *d, double *e){
     this->datos = new double[lar+1];
     for(int i = 0; i < lar+1; i++){
         this->datos[i] = -1;

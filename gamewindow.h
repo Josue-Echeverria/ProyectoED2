@@ -11,8 +11,10 @@
 #include <iostream>
 #include "mainwindow.h"
 #include <QMutex>
-
+#include "QComboBox"
 #include "mercado.h"
+#include "qhash.h"
+
 namespace Ui {
 class Gamewindow;
 }
@@ -34,8 +36,10 @@ public:
     QPixmap avl_;
     QPixmap heap_;
 
+    int counter_trees;
+    QHash<int,QVector<int>> * pos_trees;
     QTableWidget *tabla;
-
+    QComboBox * table_pos;
     granjero * granjero;
     plagaThread * plagahilo;
     plagaThread * ovejahilo;
@@ -43,6 +47,10 @@ public:
     tablero * tab;
     QMutex * mutexTablero;
     Mercado* mercado;
+
+    mercado_thread *mercado_thread;
+    int t_mercado_abierto;
+    int t_mercado_to_abrir;
     void generarLabels();
     void keyPressEvent( QKeyEvent * event);
     void verificarGranjero(int x, int y);

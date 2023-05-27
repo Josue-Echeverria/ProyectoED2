@@ -1,8 +1,6 @@
 #include "granjero.h"
 
 granjero::granjero(){
-  //  this->granjeroLabel = granjeroLabel;
-//    this->tab = tab;
     this->cargaArbolTipo = 0;// 0 = vacio, 1 = ABB, 2 = ARJ, 3 = AVL, 4 = Heap.
     this->dinero = 500;
     this->cargaEspantajaros = false;

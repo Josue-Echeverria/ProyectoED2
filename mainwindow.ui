@@ -394,7 +394,7 @@
       <string>Precio de espantapajaros:</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_t_come_3">
+    <widget class="QLineEdit" name="lineEdit_precio_espantapajaros">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -433,7 +433,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_price_3">
+    <widget class="QLineEdit" name="lineEdit_price_4">
      <property name="geometry">
       <rect>
        <x>270</x>
@@ -456,7 +456,7 @@
       <string>Variacion de precio de arboles va desde           a</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_price_4">
+    <widget class="QLineEdit" name="lineEdit_price_3">
      <property name="geometry">
       <rect>
        <x>220</x>

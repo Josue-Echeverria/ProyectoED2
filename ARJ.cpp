@@ -1,6 +1,6 @@
 #include "ARJ.h"
 void RBTree::comer(int n){
-    while(n > 0 & n_elementos > 0){
+    while(n > 0 && n_elementos > 0){
         if(this->del_min() != -1){
             std::cout<<"\nLo elimine"<<std::endl;
             n--;
@@ -37,7 +37,7 @@ Node::Node(double data) {
     left = right = parent = nullptr;
 }
 
-RBTree::RBTree(int *a, int *b, int *c, int *d, double *e) {
+RBTree::RBTree(int *a, int *b, int *c, double *d, double *e) {
     this->n_elementos = 0;
 
     this->t_crecer = a;

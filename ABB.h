@@ -29,14 +29,14 @@ public:
     int *t_crecer;
     int *t_produ_frut;
     int *n_produ_frut;
-    int *costo;
+    double *costo;
     int n_elementos= 0;
     int perdidos = 0;
     int vendidos= 0;
     double vender(int);
     double *precio_fruto;
 
-    ABB(int *a, int *b, int *c, int *d, double *e);
+    ABB(int *a, int *b, int *c, double *d, double *e);
 
 
     ~ABB(){

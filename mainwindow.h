@@ -17,20 +17,27 @@ class MainWindow : public QMainWindow
 
 
 public:
-    MainWindow(QWidget *parent = nullptr, int *cost_abb = NULL,int *cost_avl = NULL,int *cost_arj = NULL,int *cost_heap = NULL,
+    MainWindow(QWidget *parent = nullptr, double *cost_abb = NULL,double *cost_avl = NULL,double *cost_arj = NULL,double *cost_heap = NULL,
                int *t_cres_abb = NULL,int *t_cres_avl = NULL,int *t_cres_arj = NULL,int *t_cres_heap = NULL,
                int *cos_abb= NULL,int *cos_avl = NULL,int *cos_arj =NULL,int *cos_heap = NULL,
                int *tcos_abb = NULL,int *tcos_avl =NULL,int *tcos_arj = NULL,int *tcos_heap = NULL,
                double *prec_fru_abb = NULL,double *prec_fru_avl =NULL,double *prec_fru_arj = NULL,double *prec_fru_heap = NULL,
-               int *costo_espantapajaros = NULL);
+               double *costo_espantapajaros = NULL, int *t_mercado_abrir = NULL, int *t_mercado_abierto = NULL,
+               int *mercado_rango1 = NULL,int *mercado_rango2 = NULL);
     ~MainWindow();
 
-    int *costo_espantapajaros;
+    int *t_mercado_abrir;
+    int *t_mercado_abierto;
 
-    int *costo_abb;
-    int *costo_heap;
-    int *costo_arj;
-    int *costo_avl;
+    int *mercado_rango1;
+    int *mercado_rango2;
+
+    double *costo_espantapajaros;
+
+    double *costo_abb;
+    double *costo_heap;
+    double *costo_arj;
+    double *costo_avl;
 
     int *t_crecimien_abb;
     int *t_crecimien_heap;

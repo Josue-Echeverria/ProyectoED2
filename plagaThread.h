@@ -17,9 +17,12 @@ public:
     int frutosComen;
     int tiempoSegComen;
     int tipo;
+    int x,y;
     tablero *tab;
     granjero *granj;
     QMutex *mutexTab;
+    void comer(int n, float p);
+    int verificar_arbol(int x, int y);
     plagaThread(QLabel *plagaLabel, int probabilidad, int cant, int tiempoSeg, int frutosComen, int tiempoSegComen, int tipo, tablero *tab, granjero *granj, QMutex *mutexTab){
         activas = false;
         this->plagaLabel = plagaLabel;
@@ -37,6 +40,7 @@ public:
     void aparecerPlaga();
     void esconderPlaga();
     void eliminarPlaga();
+    void fue_comido();
     void verificarGranjero();
 
     void run();

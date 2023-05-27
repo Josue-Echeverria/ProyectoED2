@@ -5,12 +5,14 @@
 #include "QTableWidget"
 class Heap_Thread: public QThread{
 public:
-    Heap_Thread(int largo,int *a, int *b, int *c, int *d, double *e,QTableWidget* f,int g,int h){
+    Heap_Thread(int largo,int *a, int *b, int *c, double *d, double *e,QTableWidget* f,int g,int h,double *i){
         this->heap = new Heap(largo,a, b, c, d, e);
         this->x = g;
         this->y = h;
+        this->plata = i;
         this->tabla_intefaz = f;
     };
+    double *plata;
 
     int x,y;
     void run();
@@ -21,6 +23,7 @@ public:
     bool has_2_sell_all = false;
     bool being_eaten = false;
     int n_being_eaten = 0;
+    bool got_eaten = false;
 
     void actualizar_interfaz();
     void actualizar_interfaz_aux(int,QString);
