@@ -98,10 +98,11 @@ void plagaThread::aparecerPlaga(){
     if(pregunteProbabilidad()){
         int randomx = 0;
         int randomy = 0;
+        casilla * enUso = NULL;
         while(true){
-            randomx = QRandomGenerator::global()->generateDouble() * 7 + 1;
-            randomy =  QRandomGenerator::global()->generateDouble() * 7 + 1;
-            casilla * enUso = tab->Tablero[randomx][randomy];
+            randomx = QRandomGenerator::global()->bounded(7);
+            randomy = QRandomGenerator::global()->bounded(7);
+            enUso = tab->Tablero[randomx][randomy];
             if(enUso->plaga == 0 && enUso->espantaPaj == false && enUso->granjero ==false){
                 //QMutexLocker Locker(mutexTab);
                 enUso->plaga = tipo;

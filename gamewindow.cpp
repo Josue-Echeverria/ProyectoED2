@@ -11,19 +11,19 @@ Gamewindow::Gamewindow(QWidget *parent,MainWindow *m):
     this->granjero = new class granjero();
     this->main_window = m;
     this->setStyleSheet("background-color: lightgreen;");
-    QPixmap granjero_imagen("C:/Users/Asus/Repositories/ProyectoED2/agricultorFin.png");
-    QPixmap plaga("C:/Users/Asus/Repositories/ProyectoED2/Plaga.png");
+    QPixmap granjero_imagen("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/agricultorFin.png");
+    QPixmap plaga("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/Plaga.png");
     granjeroLab = findChild<QLabel*>("granjeroLabel");
-    QPixmap oveja("C:/Users/Asus/Repositories/ProyectoED2/oveja.png");
-    QPixmap cuervo("C:/Users/Asus/Repositories/ProyectoED2/cuervo.png");
+    QPixmap oveja("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/oveja.png");
+    QPixmap cuervo("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/cuervo.png");
 
-    QPixmap abb_imagen("C:/Users/Asus/Repositories/ProyectoED2/ABB_matriz.png");
+    QPixmap abb_imagen("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/ABB_matriz.png");
     this->abb_ = abb_imagen;
-    QPixmap avl_imagen("C:/Users/Asus/Repositories/ProyectoED2/AVL_matriz.png");
+    QPixmap avl_imagen("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/AVL_matriz.png");
     this->avl_ = avl_imagen;
-    QPixmap arj_imagen("C:/Users/Asus/Repositories/ProyectoED2/ARJ_matriz.png");
+    QPixmap arj_imagen("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/ARJ_matriz.png");
     this->arj_ = arj_imagen;
-    QPixmap heap_imagen("C:/Users/Asus/Repositories/ProyectoED2/Heap_matriz.png");
+    QPixmap heap_imagen("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/Heap_matriz.png");
     this->heap_ = heap_imagen;
     this->table_pos = findChild<QComboBox*>("comboBox");
     tabla = findChild<QTableWidget*>("tabla");
@@ -180,7 +180,7 @@ void Gamewindow::keyPressEvent(QKeyEvent * event)
     }
     else if(event->key() == Qt::Key_F4){
         if(granjero->cargaEspantajaros){
-            QPixmap espantapajaro("C:/Users/Asus/Repositories/ProyectoED2/espantapajaros.png");
+            QPixmap espantapajaro("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/espantapajaros.png");
             int posy_matriz = (py-80)/77;
             int posx_matriz = (px-60)/125;
             tab->Tablero[posx_matriz][posy_matriz]->espantaPaj = true;

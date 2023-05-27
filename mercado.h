@@ -7,7 +7,6 @@
 namespace Ui {
 class Mercado;
 }
-
 class Mercado : public QDialog
 {
     Q_OBJECT

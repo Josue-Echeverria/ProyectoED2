@@ -39,20 +39,20 @@ Mercado::Mercado(QWidget *parent,double cost_abb, double cost_avl, double cost_a
         this->costo_espantapajaros = cost_espantapajaros+(static_cast<double>(variacion_precios)/100.0)*static_cast<double>(cost_espantapajaros);
         this->label_variacion_precio->setText("El precio aumento en: "+QString::number(variacion_precios)+"%");
     }
-    QPixmap abb("C:/Users/Asus/Repositories/ProyectoED2/ABB.jpg");
+    QPixmap abb("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/ABB.jpg");
     QLabel *imagen_ABB = findChild<QLabel*>("label_imagen_ABB");
     imagen_ABB->setPixmap(abb);
-    QPixmap avl("C:/Users/Asus/Repositories/ProyectoED2/AVL.png");
+    QPixmap avl("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/AVL.png");
     QLabel *imagen_AVL = findChild<QLabel*>("label_imagen_AVL");
     imagen_AVL->setPixmap(avl);
-    QPixmap arj("C:/Users/Asus/Repositories/ProyectoED2/ARJ.jpg");
+    QPixmap arj("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/ARJ.jpg");
     QLabel *imagen_ARJ = findChild<QLabel*>("label_imagen_ARJ");
     imagen_ARJ->setPixmap(arj);
-    QPixmap heap("C:/Users/Asus/Repositories/ProyectoED2/Heap.png");
+    QPixmap heap("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/Heap.png");
     QLabel *imagen_Heap = findChild<QLabel*>("label_imagen_Heap");
     imagen_Heap->setPixmap(heap);
 
-    QPixmap espantapajaros("C:/Users/Asus/Repositories/ProyectoED2/espantapajaros_mercado.png");
+    QPixmap espantapajaros("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/espantapajaros_mercado.png");
     QLabel *imagen_espantapajaros = findChild<QLabel*>("label_imagen_espantapajaros");
     imagen_espantapajaros->setPixmap(espantapajaros);
     QLabel *cos_espantapajaros = findChild<QLabel*>("label_costo_espantapajaros");
