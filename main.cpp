@@ -44,6 +44,20 @@ int main(int argc, char *argv[])
     double precio_frut_heap= 4;
     double precio_frut_avl= 4;
 
+    std::string nombre = "";
+    int probOveja = 0;
+    int tiempoSegOveja = 0;
+    int frutosComenOveja = 0;
+    int tiempoSegComenOveja = 0;
+    int probCuervo = 0;
+    int tiempoSegCuervo = 0;
+    int frutosComenCuervo = 0;
+    int tiempoSegComenCuervo = 0;
+    int probPlaga = 0;
+    int tiempoSegPlaga = 0;
+    int frutosComenPlaga = 0;
+    int tiempoSegComenPlaga = 0;
+
 
     MainWindow *main_window = new MainWindow(NULL,
                                              &costo_abb,&costo_avl ,&costo_arj  ,&costo_heap,
@@ -54,9 +68,10 @@ int main(int argc, char *argv[])
                                              &costo_espantapajaros,&t_abierto_mercado,&t_para_abrir_mercado,
                                              &mercado_rango1,&mercado_rango2);
  //   main_window->show();
- //   main_window->show();
+
     Gamewindow *game_window = new Gamewindow(NULL, main_window);
     game_window->show();
+    main_window->show();
     QTableWidget *tabla = game_window->findChild<QTableWidget*>("tabla");
 
     //AVL_Thread *avl_thread = new AVL_Thread(&t_crecimien_avl,&cosecha_cada_t_avl,&cosecha_avl,&costo_avl,&precio_frut_avl,tabla);

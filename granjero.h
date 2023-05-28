@@ -11,7 +11,7 @@ public:
     double dinero;
     int cargaArbolTipo;
     bool cargaEspantajaros;
-
+    std::string nombre;
     granjero();
     int verificarPosicion();
 

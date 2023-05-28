@@ -9,6 +9,8 @@
 #include "plagaThread.h"
 #include "tablero.h"
 #include <iostream>
+#include <fstream>
+#include <cstring>
 #include "mainwindow.h"
 #include <QMutex>
 #include "QComboBox"
@@ -30,6 +32,7 @@ public:
     QLabel* plagaLab;
     QLabel * ovejaLab;
     QLabel * cuervoLab;
+    QLabel * recordLab;
 
     QPixmap abb_;
     QPixmap arj_;
@@ -54,6 +57,8 @@ public:
     void generarLabels();
     void keyPressEvent( QKeyEvent * event);
     void verificarGranjero(int x, int y);
+    QString toStringRecords();
+    void  agregarRecord(string nombre, double dinero);
   ~Gamewindow();
 
 
@@ -63,6 +68,10 @@ private slots:
     void on_pushButton_clicked();
 
     void on_pushButton_2_clicked();
+
+    void on_pushButton_3_clicked();
+
+    void on_iniciarButton_clicked();
 
 private:
 

@@ -1,12 +1,11 @@
 #include "gamewindow.h"
 #include "ui_gamewindow.h"
-#include <iostream>
 
 Gamewindow::Gamewindow(QWidget *parent,MainWindow *m):
     QDialog(parent),
     ui(new Ui::Gamewindow)
 {
-        ui->setupUi(this);
+    ui->setupUi(this);
    // this->mercado = new Mercado();
     this->granjero = new class granjero();
     this->main_window = m;
@@ -27,11 +26,11 @@ Gamewindow::Gamewindow(QWidget *parent,MainWindow *m):
     this->heap_ = heap_imagen;
     this->table_pos = findChild<QComboBox*>("comboBox");
     tabla = findChild<QTableWidget*>("tabla");
-//    tabla->setEditTriggers(QAbstractItemView::NoEditTriggers);
+//  tabla->setEditTriggers(QAbstractItemView::NoEditTriggers);
     tabla->setFocusPolicy(Qt::NoFocus);
     tabla->setSelectionMode(QAbstractItemView::NoSelection);
-    //pos_trees = n
     granjeroLab->setPixmap(granjero_imagen);
+    granjeroLab->setVisible(false);
     plagaLab = findChild<QLabel*>("plagaLabel");
     plagaLab->setPixmap(plaga);
     plagaLab->setVisible(false);
@@ -41,24 +40,21 @@ Gamewindow::Gamewindow(QWidget *parent,MainWindow *m):
     cuervoLab = findChild<QLabel*>("cuervoLabel");
     cuervoLab->setPixmap(cuervo);
     cuervoLab->setVisible(false);
+    recordLab = findChild<QLabel*>("recordLabel");
     this->counter_trees = 0;
     tab = new class tablero();
     granjero = new class granjero();
   //  granjero->cargaEspantajaros = true;
-    plagahilo = new plagaThread(plagaLab, 100, 1, 3, 0, 10, 3, tab, granjero, mutexTablero);
-    ovejahilo = new plagaThread(ovejaLab, 100, 1, 6, 0, 0, 1, tab, granjero, mutexTablero);
-    cuervohilo = new plagaThread(cuervoLab, 100, 1, 9, 0, 0, 1, tab, granjero, mutexTablero);
-//    plagaThread(QLabel *plagaLabel, int probabilidad, int cant, int tiempoSeg, int frutosComen, int tiempoSegComen, int tipo, tablero *tab, granjero *granj, QMutex *mutexTab){
+    plagahilo = new plagaThread(plagaLab, &this->main_window->probPlaga, 2, &this->main_window->tiempoSegPlaga, &this->main_window->frutosComenPlaga, &this->main_window->tiempoSegComenPlaga, 3, tab, granjero, mutexTablero);
+    ovejahilo = new plagaThread(ovejaLab, &this->main_window->probOveja, 2, &this->main_window->tiempoSegOveja,  &this->main_window->frutosComenOveja, &this->main_window->tiempoSegComenOveja, 1, tab, granjero, mutexTablero);
+    cuervohilo = new plagaThread(cuervoLab, &this->main_window->probCuervo, 2, &this->main_window->tiempoSegCuervo,  &this->main_window->frutosComenCuervo, &this->main_window->tiempoSegComenCuervo, 2, tab, granjero, mutexTablero);
+//    plagaThread(QLabel *plagaLabel, int probabilidad, int cant, int tiempoSeg, int frutosComen, int tiempoSegComen, int tipo, tablero *tab, granjero *granj, QMutex *mutexTab)
 
     this->pos_trees = new QHash<int,QVector<int>>;
     mercado_thread = new class mercado_thread(this->main_window->t_mercado_abierto,this->main_window->t_mercado_abrir,findChild<QLabel*>("label_mercado"),&this->granjero->dinero,findChild<QLabel*>("label_plata"));
-    mercado_thread->start();
     granjeroLab->setGeometry(60,80,50,50);
     plagaLab->setGeometry(60,80,50,50);
-    generarLabels();
-    cuervohilo->start();
-    plagahilo->start();
-    ovejahilo->start();/**/
+
 }
 
 Gamewindow::~Gamewindow()
@@ -79,8 +75,83 @@ void Gamewindow::generarLabels(){
     }
 }
 
+QString Gamewindow::toStringRecords(){
+    QString recordString = "";
+    std::string nombreArchivo = "C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/records.txt";
+    std::ifstream archivo(nombreArchivo.c_str());
+    std::string linea;
+    recordString +="Mejores records: \n";
+    while (getline(archivo, linea)) {
+        recordString += QString::fromStdString(linea);
+        recordString += "\n";
+    }
+    return recordString;
+};
 
-
+void  Gamewindow::agregarRecord(string nombre, double dinero){
+    std::string arregloRecords[22];
+    int length = 0;
+    char* char_array;
+    std::string nombreArchivo = "C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/records.txt";
+    std::ifstream archivo(nombreArchivo.c_str());
+    std::string linea;
+    std::string name;
+    std::string score;
+    bool flag = true;
+    bool entro = false;
+    int contador = 0;
+    while (getline(archivo, linea)) {
+        name = "";
+        score = "";
+        flag = true;
+        length = linea.length();
+        char_array = new char[length + 1];
+        strcpy(char_array, linea.c_str());
+        for (int i = 0; i < length; i++){
+            if(char_array[i] == ' '){
+                flag = false;
+            }else{
+                if(flag){
+                    name += char_array[i];
+                }else{
+                    score+= char_array[i];
+                }
+            }
+        }
+        if( stod(score) <= dinero && entro == false){
+            arregloRecords[contador] = nombre;
+            contador += 1;
+            arregloRecords[contador] = to_string(dinero);
+            contador += 1;
+            arregloRecords[contador] = name;
+            contador += 1;
+            arregloRecords[contador] = score;
+            contador += 1;
+            entro = true;
+        }else{
+            arregloRecords[contador] = name;
+            contador += 1;
+            arregloRecords[contador] = score;
+            contador += 1;
+        }
+    }
+    if(!entro){
+        arregloRecords[contador] = nombre;
+        contador += 1;
+        arregloRecords[contador] = to_string(dinero);
+    }
+    archivo.close();
+    ofstream myfile ("C:/Users/hdani/OneDrive/Escritorio/Tec semestre 1/datos/proyecto2/QtGit/ProyectoED2/records.txt");
+    string recordNuevo = "";
+    for(int x = 0; x < 20; x+=2){
+        if(x!=18)
+            recordNuevo = arregloRecords[x] + " " + arregloRecords[x+1] +"\n";
+        else
+            recordNuevo = arregloRecords[x] + " " + arregloRecords[x+1];
+        myfile<< recordNuevo;
+    }
+    myfile.close();
+}
 
 void Gamewindow::keyPressEvent(QKeyEvent * event)
 {
@@ -184,6 +255,14 @@ void Gamewindow::keyPressEvent(QKeyEvent * event)
             int posy_matriz = (py-80)/77;
             int posx_matriz = (px-60)/125;
             tab->Tablero[posx_matriz][posy_matriz]->espantaPaj = true;
+            tab->Tablero[posx_matriz+1][posy_matriz]->espantaPaj = true;
+            tab->Tablero[posx_matriz-1][posy_matriz]->espantaPaj = true;
+            tab->Tablero[posx_matriz][posy_matriz+1]->espantaPaj = true;
+            tab->Tablero[posx_matriz][posy_matriz-1]->espantaPaj = true;
+            tab->Tablero[posx_matriz+1][posy_matriz+1]->espantaPaj = true;
+            tab->Tablero[posx_matriz-1][posy_matriz+1]->espantaPaj = true;
+            tab->Tablero[posx_matriz-1][posy_matriz-1]->espantaPaj = true;
+            tab->Tablero[posx_matriz+1][posy_matriz-1]->espantaPaj = true;
             parcelas[posy_matriz][posx_matriz]->setPixmap(espantapajaro);
             granjero->cargaEspantajaros = false;
         }
@@ -215,7 +294,7 @@ void Gamewindow::verificarGranjero(int x, int y){
     //    ovejaLab->setVisible(false);
     }
     else if((cuervoLab->x() == x) && (cuervoLab->y() == y)){
-      //  cuervoLab->setVisible(false);
+        cuervoLab->setVisible(false);
     }
 }
 
@@ -265,5 +344,25 @@ void Gamewindow::on_pushButton_2_clicked()
 
         }
     }
+}
+
+
+void Gamewindow::on_pushButton_3_clicked()
+{
+    granjero->nombre = this->main_window->nombre;
+    agregarRecord(granjero->nombre, granjero->dinero);
+    recordLab->setText(toStringRecords());
+}
+
+
+void Gamewindow::on_iniciarButton_clicked()
+{
+    cuervohilo->start();
+    plagahilo->start();
+    ovejahilo->start();
+    recordLab->setText(toStringRecords());
+    mercado_thread->start();
+    generarLabels();
+    granjeroLab->setVisible(true);
 }
 

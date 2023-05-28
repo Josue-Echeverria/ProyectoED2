@@ -69,6 +69,33 @@ void MainWindow::on_pushButton_guardar_clicked()
     QString k= findChild<QLineEdit*>("lineEdit_price_3")->text();
     QString l= findChild<QLineEdit*>("lineEdit_price_4")->text();
 
+    int plaga_index = findChild<QComboBox*>("comboBox_plagas")->currentIndex();
+    QString a1 = findChild<QLineEdit*>("lineEdit_prob")->text();
+    QString a2 = findChild<QLineEdit*>("lineEdit_prob_x_t")->text();
+    QString a3 = findChild<QLineEdit*>("lineEdit_come")->text();
+    QString a4 = findChild<QLineEdit*>("lineEdit_t_come")->text();
+
+    this->nombre = findChild<QLineEdit*>("nombreEdit")->text().toStdString();
+    switch(plaga_index){
+        case 0:
+            this->probCuervo = a1.toInt();
+            this->tiempoSegCuervo = a2.toInt();
+            this->frutosComenCuervo = a3.toInt();
+            this->tiempoSegComenCuervo = a4.toInt();
+            break;
+        case 1:
+            this->probOveja = a1.toInt();
+            this->tiempoSegOveja = a2.toInt();
+            this->frutosComenOveja = a3.toInt();
+            this->tiempoSegComenOveja = a4.toInt();
+            break;
+        case 2:
+            this->probPlaga = a1.toInt();
+            this->tiempoSegPlaga = a2.toInt();
+            this->frutosComenPlaga = a3.toInt();
+            this->tiempoSegComenPlaga = a4.toInt();
+            break;
+    }
     double randomprice = QRandomGenerator::global()->bounded(d.toInt(), f.toInt()); // Generate random number between 50 and 100
 
     *this->t_mercado_abierto = i.toInt();

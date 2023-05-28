@@ -6,30 +6,28 @@ void plagaThread::run(){
         while(plagaLabel->isVisible()){
             if(this->tipo == 3){
                 int n = 0;
-                while(plagaLabel->isVisible() && (n < this->tiempoSegComen)){
+                while(plagaLabel->isVisible() && (n < *this->tiempoSegComen)){
                     QThread::sleep(1);
                     n++;
 
-                }if(n == this->tiempoSegComen){
+                }if(n == *this->tiempoSegComen){
                     fue_comido();
                 } else {
-                    comer(n,static_cast<float>(n)/static_cast<float>(this->tiempoSegComen));
+                    comer(n,static_cast<float>(n)/static_cast<float>(*this->tiempoSegComen));
                 }
             } else
-            comer(this->frutosComen,-1);
+            comer(*this->frutosComen,-1);
             QThread::sleep(1);
         }
-        QThread::sleep(tiempoSeg);
-        for(int i = 0; i < cant; i++){
-            aparecerPlaga();
-            QThread::sleep(1);
-        }
+        QThread::sleep(*tiempoSeg/cant);
+        aparecerPlaga();
+        QThread::sleep(1);
     }
 }
 
 bool plagaThread::pregunteProbabilidad(){
     int random = QRandomGenerator::global()->generateDouble() * 99 + 1;
-    if(random<=probabilidad){
+    if(random<=*probabilidad){
         return true;
     }
     return false;
@@ -103,17 +101,91 @@ void plagaThread::aparecerPlaga(){
             randomx = QRandomGenerator::global()->bounded(7);
             randomy = QRandomGenerator::global()->bounded(7);
             enUso = tab->Tablero[randomx][randomy];
-            if(enUso->plaga == 0 && enUso->espantaPaj == false && enUso->granjero ==false){
+            if(enUso->plaga == 0 && enUso->espantaPaj == false){
                 //QMutexLocker Locker(mutexTab);
                 enUso->plaga = tipo;
                 plagaLabel->setVisible(true);
                 plagaLabel->setGeometry(enUso->x, enUso->y, 50, 50);
-                this->x = randomy;
-                this->y = randomx;
                 //mutexTab->unlock();
                 break;
             }
         }
+        sleep(2);
+        if(enUso->arbol == 0 && tipo == 2){
+            if(randomx == 0 && randomy == 0){
+                if(tab->Tablero[randomx+1][randomy]->arbol != 0 && tab->Tablero[randomx+1][randomy]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x + 125, enUso->y, 50, 50);
+                }else if(tab->Tablero[randomx][randomy+1]->arbol != 0 && tab->Tablero[randomx][randomy +1]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x, enUso->y + 77, 50, 50);
+                }
+            }else if(randomx == 7 && randomy == 7){
+                if(tab->Tablero[randomx-1][randomy]->arbol != 0 && tab->Tablero[randomx -1][randomy]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x - 125, enUso->y, 50, 50);
+                }else if(tab->Tablero[randomx][randomy-1]->arbol != 0 && tab->Tablero[randomx][randomy -1]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x, enUso->y +77, 50, 50);
+                }
+            }else if(randomx == 7 && randomy == 0){
+                if(tab->Tablero[randomx-1][randomy]->arbol != 0 && tab->Tablero[randomx -1][randomy]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x -125, enUso->y, 50, 50);
+                }else if(tab->Tablero[randomx][randomy+1]->arbol != 0 && tab->Tablero[randomx][randomy +1]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x, enUso->y +77, 50, 50);
+                }
+            }else if(randomx == 0 && randomy == 7){
+                if(tab->Tablero[randomx+1][randomy]->arbol != 0  && tab->Tablero[randomx+1][randomy]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x +125, enUso->y, 50, 50);
+                }else if(tab->Tablero[randomx][randomy-1]->arbol != 0 && tab->Tablero[randomx][randomy -1]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x, enUso->y -77, 50, 50);
+                }
+            }
+            else if(randomx == 0){
+                if(tab->Tablero[randomx+1][randomy]->arbol != 0  && tab->Tablero[randomx+1][randomy]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x +125, enUso->y, 50, 50);
+                }else if(tab->Tablero[randomx][randomy+1]->arbol != 0 && tab->Tablero[randomx][randomy +1]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x, enUso->y +77, 50, 50);
+                }else if(tab->Tablero[randomx][randomy-1]->arbol != 0 && tab->Tablero[randomx][randomy -1]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x, enUso->y-77, 50, 50);
+                }
+            }
+            else if(randomx == 7){
+                if(tab->Tablero[randomx-1][randomy]->arbol != 0 && tab->Tablero[randomx -1][randomy]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x -125, enUso->y, 50, 50);
+                }else if(tab->Tablero[randomx][randomy+1]->arbol != 0 && tab->Tablero[randomx][randomy +1]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x, enUso->y +77, 50, 50);
+                }else if(tab->Tablero[randomx][randomy-1]->arbol != 0 && tab->Tablero[randomx][randomy -1]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x, enUso->y-77, 50, 50);
+                }
+            }
+            else if(randomy == 0){
+                if(tab->Tablero[randomx-1][randomy]->arbol != 0 && tab->Tablero[randomx -1][randomy]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x -125, enUso->y, 50, 50);
+                }else if(tab->Tablero[randomx][randomy+1]->arbol != 0 && tab->Tablero[randomx][randomy +1]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x, enUso->y +77, 50, 50);
+                }else if(tab->Tablero[randomx+1][randomy]->arbol != 0  && tab->Tablero[randomx+1][randomy]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x+125, enUso->y, 50, 50);
+                }
+            }
+            else if(randomy == 7){
+                if(tab->Tablero[randomx-1][randomy]->arbol != 0 && tab->Tablero[randomx -1][randomy]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x -125, enUso->y, 50, 50);
+                }else if(tab->Tablero[randomx][randomy-1]->arbol != 0 && tab->Tablero[randomx][randomy -1]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x, enUso->y -77, 50, 50);
+                }else if(tab->Tablero[randomx+1][randomy]->arbol != 0  && tab->Tablero[randomx+1][randomy]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x+125, enUso->y, 50, 50);
+                }
+            }else{
+                if(tab->Tablero[randomx-1][randomy]->arbol != 0  && tab->Tablero[randomx -1][randomy]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x -125, enUso->y, 50, 50);
+                }else if(tab->Tablero[randomx][randomy-1]->arbol != 0 && tab->Tablero[randomx][randomy -1]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x, enUso->y -77, 50, 50);
+                }else if(tab->Tablero[randomx+1][randomy]->arbol != 0  && tab->Tablero[randomx+1][randomy]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x+125, enUso->y, 50, 50);
+                }else if(tab->Tablero[randomx][randomy+1]->arbol != 0 && tab->Tablero[randomx][randomy +1]->plaga == false){
+                    plagaLabel->setGeometry(enUso->x, enUso->y +77, 50, 50);
+                }
+            }
+        }
+        this->x = randomy;
+        this->y = randomx;
     }
 }
 

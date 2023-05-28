@@ -1,0 +1,10 @@
+Pedro 2005.900000
+Mario 2005.800000
+Diego 2005.7
+Juan 2005.4
+William 2005.110000
+Jazmin 2000.8
+Tucan 2000.000000
+Armando 1950
+Josue 1900.5678
+Guillermo 1800.543000

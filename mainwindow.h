@@ -26,6 +26,20 @@ public:
                int *mercado_rango1 = NULL,int *mercado_rango2 = NULL);
     ~MainWindow();
 
+    std::string nombre;
+    int probOveja;
+    int tiempoSegOveja;
+    int frutosComenOveja;
+    int tiempoSegComenOveja;
+    int probCuervo;
+    int tiempoSegCuervo;
+    int frutosComenCuervo;
+    int tiempoSegComenCuervo;
+    int probPlaga;
+    int tiempoSegPlaga;
+    int frutosComenPlaga;
+    int tiempoSegComenPlaga;
+
     int *t_mercado_abrir;
     int *t_mercado_abierto;
 
