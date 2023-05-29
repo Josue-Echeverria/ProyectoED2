@@ -149,6 +149,7 @@ void MainWindow::on_pushButton_guardar_clicked()
 
 void MainWindow::on_pButton_clicked()
 {
+    this->nombre = findChild<QLineEdit*>("nombreEdit")->text().toStdString();
     hide();
 }
 

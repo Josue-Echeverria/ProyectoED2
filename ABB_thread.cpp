@@ -6,10 +6,10 @@ void ABB_Thread::actualizar_interfaz(){
     else
     actualizar_interfaz_aux(0,"AVL");
     actualizar_interfaz_aux(1,"("+QString::number(this->x)+","+QString::number(this->y)+")");
-    actualizar_interfaz_aux(2,QString::number(this->abb->n_elementos));
-    actualizar_interfaz_aux(3,QString::number(this->abb->n_elementos * *this->abb->precio_fruto));
-    actualizar_interfaz_aux(4,QString::number(this->abb->perdidos));
-    actualizar_interfaz_aux(5,QString::number(this->abb->vendidos));
+    actualizar_interfaz_aux(2,QString::number(*this->abb->n_elementos));
+    actualizar_interfaz_aux(3,QString::number(*this->abb->n_elementos * *this->abb->precio_fruto));
+    actualizar_interfaz_aux(4,QString::number(*this->abb->perdidos));
+    actualizar_interfaz_aux(5,QString::number(*this->abb->vendidos));
 
 }
 
@@ -24,6 +24,12 @@ void ABB_Thread::actualizar_interfaz_aux(int row,QString text){
 }
 
 
+void ABB_Thread::produce_n(int n){
+    for(int i = n; i > 0;i--){
+        double random = QRandomGenerator::global()->generateDouble() * 4 + 1;
+        this->abb->meterABB(random);
+    }
+}
 
 void ABB_Thread::run(){
     this->running = true;
@@ -64,8 +70,8 @@ void ABB_Thread::run(){
             }
         }
         if(this->got_eaten){
-
-            this->tabla_intefaz->removeColumn(this->pos_table);
+            this->abb->comer(*this->abb->n_elementos);
+            this->imagen_interfaz->setPixmap(QPixmap());
             break;
         }
         this->mutex_abb.unlock();

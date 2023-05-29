@@ -1,10 +1,10 @@
 #include "ARJ.h"
 void RBTree::comer(int n){
-    while(n > 0 && n_elementos > 0){
+    while(n > 0 && *n_elementos > 0){
         if(this->del_min() != -1){
             std::cout<<"\nLo elimine"<<std::endl;
             n--;
-            this->perdidos++;
+            *this->perdidos+=1;
         }else
             break;
     }
@@ -13,18 +13,18 @@ void RBTree::comer(int n){
 double RBTree::vender(int n){
     double acumulador = 0;
     if(n == -1){
-        acumulador = this->n_elementos**this->precio_fruto;
+        acumulador = *this->n_elementos**this->precio_fruto;
         this->root = nullptr;
-        this->vendidos += this->n_elementos;
-        this->n_elementos = 0;
+        *this->vendidos += *this->n_elementos;
+        *this->n_elementos = 0;
         return acumulador;
     }
-    while(n > 0 & n_elementos > 0){
+    while(n > 0 & *n_elementos > 0){
         if(this->del_min() != -1){
             std::cout<<"\nLo elimine"<<std::endl;
             acumulador += *this->precio_fruto;
             n--;
-            this->vendidos++;
+            *this->vendidos+=1;
         }else
             break;
     }
@@ -37,7 +37,7 @@ Node::Node(double data) {
     left = right = parent = nullptr;
 }
 
-RBTree::RBTree(int *a, int *b, int *c, double *d, double *e) {
+RBTree::RBTree(int *a, int *b, int *c, double *d, double *e,int *f,int *g,int *h) {
     this->n_elementos = 0;
 
     this->t_crecer = a;
@@ -45,6 +45,10 @@ RBTree::RBTree(int *a, int *b, int *c, double *d, double *e) {
     this->n_produ_frut = c;
     this->costo = d;
     this->precio_fruto = e;
+    this->n_elementos = f;
+    this->perdidos = g;
+    this->vendidos = h;
+
     root = nullptr;
 }
 
@@ -80,7 +84,7 @@ Node* RBTree::insertBST(Node *&root, Node *&ptr) {
 void RBTree::insertValue(double n) {
     Node *node = new Node(n);
     root = insertBST(root, node);
-    this->n_elementos++;
+    *this->n_elementos+=1;
 
     fixInsertRBTree(node);
 }
@@ -345,7 +349,7 @@ double RBTree::del_min(){
     if(ptr != NULL){
         double temp = ptr->data;
         deleteValue(ptr->data);
-        this->n_elementos--;
+        *this->n_elementos-=1;
         return temp;
     }
     return -1;

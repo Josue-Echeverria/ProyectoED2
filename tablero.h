@@ -10,6 +10,9 @@ public:
     int x;
     int y;
     int arbol;   // 0 = vacio, 1 = ABB, 2 = ARJ, 3 = AVL, 4 = Heap.
+    int n_elementos= 0;
+    int perdidos = 0;
+    int vendidos= 0;
     ABB_Thread * Abb;
     ARJ_thread * Arj;
     ABB_Thread * Avl;
@@ -55,23 +58,33 @@ class tablero{
     void agregarPlaga(int x, int y, int numPlaga){
         Tablero[x][y]->plaga = numPlaga;
     }
-    void modificarArbol(int x, int y, int numArbol,int *t_crecer,int *t_para_cosechar,int *cosecha_n,double *costo, double *precio_x_fruta,QTableWidget *tabla,double * plata){
+    void modificarArbol(int x, int y, int numArbol,int *t_crecer,int *t_para_cosechar,int *cosecha_n,double *costo, double *precio_x_fruta,QTableWidget *tabla,double * plata, int n, QLabel *imagen){
         Tablero[x][y]->arbol = numArbol;
         switch (numArbol) {// 0 = vacio, 1 = ABB, 2 = ARJ, 3 = AVL, 4 = Heap.
         case 1:
-            Tablero[x][y]->Abb = new ABB_Thread(t_crecer,t_para_cosechar,cosecha_n,costo,precio_x_fruta,tabla,x,y,plata,true);
+            Tablero[x][y]->Abb = new ABB_Thread(t_crecer,t_para_cosechar,cosecha_n,costo,precio_x_fruta,tabla,x,y,plata,true,&Tablero[x][y]->n_elementos,&Tablero[x][y]->perdidos,&Tablero[x][y]->vendidos,imagen);
+            if(n != -1)
+                Tablero[x][y]->Abb->produce_n(n);
             Tablero[x][y]->Abb->start();
             break;
         case 2:
-            Tablero[x][y]->Arj = new ARJ_thread(t_crecer,t_para_cosechar,cosecha_n,costo,precio_x_fruta,tabla,x,y,plata);
+            Tablero[x][y]->Arj = new ARJ_thread(t_crecer,t_para_cosechar,cosecha_n,costo,precio_x_fruta,tabla,x,y,plata,&Tablero[x][y]->n_elementos,&Tablero[x][y]->perdidos,&Tablero[x][y]->vendidos,imagen);
+            if(n != -1)
+                Tablero[x][y]->Arj->produce_n(n);
             Tablero[x][y]->Arj->start();
             break;
         case 3:
-            Tablero[x][y]->Avl = new ABB_Thread(t_crecer,t_para_cosechar,cosecha_n,costo,precio_x_fruta,tabla,x,y,plata,false);
+            Tablero[x][y]->Avl = new ABB_Thread(t_crecer,t_para_cosechar,cosecha_n,costo,precio_x_fruta,tabla,x,y,plata,false,&Tablero[x][y]->n_elementos,&Tablero[x][y]->perdidos,&Tablero[x][y]->vendidos,imagen);
+            if(n != -1)
+                Tablero[x][y]->Avl->produce_n(n);
+
             Tablero[x][y]->Avl->start();
             break;
         case 4:
-            Tablero[x][y]->Heap = new Heap_Thread(20,t_crecer,t_para_cosechar,cosecha_n,costo,precio_x_fruta,tabla,x,y,plata);
+            Tablero[x][y]->Heap = new Heap_Thread(20,t_crecer,t_para_cosechar,cosecha_n,costo,precio_x_fruta,tabla,x,y,plata,&Tablero[x][y]->n_elementos,&Tablero[x][y]->perdidos,&Tablero[x][y]->vendidos,imagen);
+            if(n != -1)
+                Tablero[x][y]->Heap->produce_n(n);
+
             Tablero[x][y]->Heap->start();
             break;
         }

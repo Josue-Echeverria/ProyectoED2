@@ -3,10 +3,10 @@
 void Heap_Thread::actualizar_interfaz(){
     actualizar_interfaz_aux(0,"Heap");
     actualizar_interfaz_aux(1,"("+QString::number(this->x)+","+QString::number(this->y)+")");
-    actualizar_interfaz_aux(2,QString::number(this->heap->n_elementos));
-    actualizar_interfaz_aux(3,QString::number(this->heap->n_elementos * *this->heap->precio_fruto));
-    actualizar_interfaz_aux(4,QString::number(this->heap->perdidos));
-    actualizar_interfaz_aux(5,QString::number(this->heap->vendidos));
+    actualizar_interfaz_aux(2,QString::number(*this->heap->n_elementos));
+    actualizar_interfaz_aux(3,QString::number(*this->heap->n_elementos * *this->heap->precio_fruto));
+    actualizar_interfaz_aux(4,QString::number(*this->heap->perdidos));
+    actualizar_interfaz_aux(5,QString::number(*this->heap->vendidos));
 
 }
 
@@ -19,6 +19,14 @@ void Heap_Thread::actualizar_interfaz_aux(int row,QString text){
     }
     item->setText(text);
 }
+
+void Heap_Thread::produce_n(int n){
+    for(int i = n; i > 0;i--){
+        double random = QRandomGenerator::global()->generateDouble() * 4 + 1;
+        this->heap->insertar(random);
+    }
+}
+
 void Heap_Thread::run(){
     this->running = true;
     QRandomGenerator randomGenerator;
@@ -32,6 +40,10 @@ void Heap_Thread::run(){
             QThread::sleep(1);
         }
         for(int i = *this->heap->t_produ_frut; i > 0; i--){
+            if(this->got_eaten){
+                this->heap->comer(*this->heap->n_elementos);
+                break;
+            }
             this->actualizar_interfaz();
             if(this->being_eaten){
                 this->heap->comer(n_being_eaten);
@@ -49,11 +61,16 @@ void Heap_Thread::run(){
         }
         this->mutex_heap.lock();
         for(int i = *this->heap->n_produ_frut; i > 0; i--){
-            double random = QRandomGenerator::global()->generateDouble() * 4 + 1;
-            this->heap->insertar(random);
+            if (!this->got_eaten){
+                double random = QRandomGenerator::global()->generateDouble() * 4 + 1;
+                this->heap->insertar(random);
+            }
         }
-        this->heap->mostrar();
-      //  std::cout<<"\nARBOL heap"<<std::endl;
         this->mutex_heap.unlock();
+        if(this->got_eaten){
+            this->heap->comer(*this->heap->n_elementos);
+            this->imagen_interfaz->setPixmap(QPixmap());
+            break;
+        }
     }
 }

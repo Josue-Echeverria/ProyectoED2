@@ -1,6 +1,6 @@
 #include "Heap.h"
 
-Heap::Heap(int lar,int *a, int *b, int *c, double *d, double *e){
+Heap::Heap(int lar,int *a, int *b, int *c, double *d, double *e,int *f,int *g,int *h){
     this->datos = new double[lar+1];
     for(int i = 0; i < lar+1; i++){
         this->datos[i] = -1;
@@ -12,13 +12,16 @@ Heap::Heap(int lar,int *a, int *b, int *c, double *d, double *e){
     this->n_produ_frut = c;
     this->costo = d;
     this->precio_fruto = e;
+    this->n_elementos = f;
+    this->perdidos = g;
+    this->vendidos = h;
 }
 void Heap::comer(int n){
-    while(n > 0 & n_elementos > 0){
+    while(n > 0 & *n_elementos > 0){
         if(this->delete_random() != -1){
             std::cout<<"\nLo elimine"<<std::endl;
             n--;
-            this->perdidos++;
+            *this->perdidos+=1;
         }else
             break;
     }
@@ -27,17 +30,17 @@ void Heap::comer(int n){
 double Heap::vender(int n){
     double acumulador = 0;
     if(n == -1){
-        acumulador = this->n_elementos**this->precio_fruto;
-        this->vendidos += this->n_elementos;
+        acumulador = *this->n_elementos**this->precio_fruto;
+        *this->vendidos += *this->n_elementos;
         eliminar_todo();
         return acumulador;
     }
-    while(n > 0 & n_elementos > 0){
+    while(n > 0 & *n_elementos > 0){
         if(this->delete_random() != -1){
             std::cout<<"\nLo elimine"<<std::endl;
             acumulador += *this->precio_fruto;
             n--;
-            this->vendidos++;
+            *this->vendidos+=1;
         }else
             break;
     }
@@ -45,25 +48,25 @@ double Heap::vender(int n){
 }
 
 void Heap::insertar(double n){
-    if(largo == n_elementos){
+    if(largo == *n_elementos){
         std::cout<<"Arbol heap lleno"<<std::endl;
     }else{
         shiftright();
         datos[0] = n;
         getmax(0);
-        this->n_elementos++;
+        *this->n_elementos+=1;
     }
 }
 
 void Heap::eliminar_todo(){
-    for(int i = 0; i<n_elementos;i++){
+    for(int i = 0; i<*n_elementos;i++){
         this->datos[i] = -1;
     }
-    this->n_elementos = 0;
+    *this->n_elementos = 0;
 }
 
 void Heap::shiftright(){
-    for(int i = n_elementos; i>=0; i--){
+    for(int i = *n_elementos; i>=0; i--){
         datos[i+1] = datos[i];
     }
 }
@@ -85,17 +88,17 @@ int Heap::getmax(int index){
 }
 
 void Heap::shiftleft_from(int index){
-    for(int i = index; i<=n_elementos; i++){
+    for(int i = index; i<=*n_elementos; i++){
         datos[i] = datos[i+1];
     }
 }
 
 double Heap::eliminar(double entrada){
-    for(int i = 0; i<n_elementos;i++){
+    for(int i = 0; i<*n_elementos;i++){
         if(entrada == this->datos[i]){
             int temp = this->datos[i];
             shiftleft_from(i);
-            n_elementos--;
+            *n_elementos-=1;
             return temp;
         };
     }
@@ -103,20 +106,20 @@ double Heap::eliminar(double entrada){
 };
 
 int Heap::delete_random(){
-    if(this->n_elementos == 0)
+    if(*this->n_elementos == 0)
         return -1;
     else{
-        int random = QRandomGenerator::global()->bounded(this->n_elementos);
+        int random = QRandomGenerator::global()->bounded(*this->n_elementos);
         double toretrun = this->datos[random];
         shiftleft_from(random);
-        this->n_elementos--;
+        *this->n_elementos-=1;
         return toretrun;
     }
 
 }
 
 double Heap::buscar(double entrada){
-    for(int i = 0; i<n_elementos;i++){
+    for(int i = 0; i<*n_elementos;i++){
         if(entrada == this->datos[i]){
             return this->datos[i];
         };
@@ -125,7 +128,7 @@ double Heap::buscar(double entrada){
 };
 
 void Heap::mostrar(){
-    for(int i = 0; i<n_elementos;i++){
+    for(int i = 0; i<*n_elementos;i++){
         cout<<this->datos[i]<<" ";
     }
 }

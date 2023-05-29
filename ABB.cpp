@@ -1,22 +1,23 @@
 #include "ABB.h"
 
-ABB::ABB(int *a, int *b, int *c, double *d, double *e){
+ABB::ABB(int *a, int *b, int *c, double *d, double *e,int *f,int *g,int *h){
     raiz = NULL;
     this->t_crecer = a;
     this->t_produ_frut = b;
     this->n_produ_frut = c;
     this->costo = d;
     this->precio_fruto = e;
-    this->n_elementos = 0;
-
+    this->n_elementos = f;
+    this->perdidos = g;
+    this->vendidos = h;
 }
 
 void ABB::comer(int n){
-    while(n > 0 & n_elementos > 0){
+    while(n > 0 & *n_elementos > 0){
         if(this->del_min() != -1){
             std::cout<<"\nLo elimine"<<std::endl;
             n--;
-            this->perdidos++;
+            *this->perdidos+=1;
         }else
             break;
     }
@@ -26,18 +27,20 @@ void ABB::comer(int n){
 double ABB::vender(int n){
     double acumulador = 0;
     if(n == -1){
-        acumulador = this->n_elementos**this->precio_fruto;
+        acumulador = *this->n_elementos**this->precio_fruto;
         this->raiz = NULL;
-        this->vendidos += this->n_elementos;
-        this->n_elementos = 0;
+        *this->vendidos += *this->n_elementos;
+        *this->n_elementos = 0;
         return acumulador;
     }
-    while(n > 0 & n_elementos > 0){
+    while(n > 0 & *n_elementos > 0){
+        std::cout<<"\nLo elimine"<<std::endl;
+
         if(this->del_min() != -1){
             std::cout<<"\nLo elimine"<<std::endl;
             acumulador += *this->precio_fruto;
             n--;
-            this->vendidos++;
+            *this->vendidos += 1;
         }else
             break;
     }
@@ -68,7 +71,7 @@ double ABB::del_min(){
     if(ptr != NULL){
         double temp = ptr->info;
         sacarABB(ptr->info);
-        this->n_elementos--;
+        *this->n_elementos-=1;
         return temp;
     }
     return -1;
@@ -99,7 +102,7 @@ void ABB::meterABB (double valor){
         else
             padre->der = nuevo;
     }
-    this->n_elementos++;
+    *this->n_elementos += 1;
 
 }
 

@@ -39,7 +39,7 @@ void plagaThread::comer(int n,float p){
         break;
     case 1:
         if(p != -1){
-            n = p * this->tab->Tablero[x][y]->Abb->abb->n_elementos;
+            n = p * *this->tab->Tablero[x][y]->Abb->abb->n_elementos;
 
         }
         this->tab->Tablero[x][y]->Abb->being_eaten = true;
@@ -47,21 +47,21 @@ void plagaThread::comer(int n,float p){
         break;
     case 2:
         if(p != -1){
-            n = p * this->tab->Tablero[x][y]->Arj->arj->n_elementos;
+            n = p * *this->tab->Tablero[x][y]->Arj->arj->n_elementos;
         }
         this->tab->Tablero[x][y]->Arj->being_eaten = true;
         this->tab->Tablero[x][y]->Arj->n_being_eaten = n;
         break;
     case 3:
         if(p != -1){
-            n = p * this->tab->Tablero[x][y]->Avl->abb->n_elementos;
+            n = p * *this->tab->Tablero[x][y]->Avl->abb->n_elementos;
         }
         this->tab->Tablero[x][y]->Avl->being_eaten = true;
         this->tab->Tablero[x][y]->Avl->n_being_eaten = n;
         break;
     case 4:
         if(p != -1){
-            n = p * this->tab->Tablero[x][y]->Heap->heap->n_elementos;
+            n = p * *this->tab->Tablero[x][y]->Heap->heap->n_elementos;
         }
         this->tab->Tablero[x][y]->Heap->being_eaten = true;
         this->tab->Tablero[x][y]->Heap->n_being_eaten = n;

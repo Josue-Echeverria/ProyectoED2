@@ -16,6 +16,10 @@
 #include "QComboBox"
 #include "mercado.h"
 #include "qhash.h"
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QFile>
 
 namespace Ui {
 class Gamewindow;
@@ -71,7 +75,13 @@ private slots:
 
     void on_pushButton_3_clicked();
 
+    void on_pushButton_4_clicked();
+
     void on_iniciarButton_clicked();
+
+    void on_pushButton_5_clicked();
+
+    void on_guardarButton_clicked();
 
 private:
 

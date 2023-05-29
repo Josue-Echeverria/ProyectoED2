@@ -30,13 +30,13 @@ public:
     int *t_produ_frut;
     int *n_produ_frut;
     double *costo;
-    int n_elementos= 0;
-    int perdidos = 0;
-    int vendidos= 0;
+    int *n_elementos= 0;
+    int *perdidos = 0;
+    int *vendidos= 0;
     double vender(int);
     double *precio_fruto;
 
-    ABB(int *a, int *b, int *c, double *d, double *e);
+    ABB(int *a, int *b, int *c, double *d, double *e, int *f, int *g,int *h);
 
 
     ~ABB(){

@@ -302,7 +302,7 @@ struct node *AVL::lrrotation(struct node *n)
    return tp2;
 }
 
-AVL::AVL(int *a, int *b, int *c, int *d, double *e) {
+AVL::AVL(int *a, int *b, int *c, double *d, double *e) {
    root = NULL;
    this->n_elementos = 0;
 

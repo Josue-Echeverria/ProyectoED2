@@ -7,7 +7,7 @@
 class AVL_Thread: public QThread{
 public:
     AVL_Thread(int *a, int *b, int *c, double *d, double *e, QTableWidget *f,int g,int h,double *i){
-        this->avl = new ABB(a, b, c, d, e);
+        this->avl = new AVL(a, b, c, d, e);
         this->x = g;
         this->y = h;
         this->tabla_intefaz = f;
@@ -29,7 +29,7 @@ public:
     void run();
     std::mutex mutex_avl;
 
-    ABB *avl;
+    AVL *avl;
     bool running;
     void pausar(){running = false;}
     void reanudar(){running = true;}

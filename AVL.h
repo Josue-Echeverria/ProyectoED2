@@ -34,7 +34,7 @@ class AVL {
    int *t_crecer;
    int *t_produ_frut;
    int *n_produ_frut;
-   int *costo;
+   double *costo;
    double *precio_fruto;
    double vender(int);
    void comer(int);
@@ -42,7 +42,7 @@ class AVL {
    int perdidos= 0;
    int vendidos= 0;
 
-   AVL(int *a, int *b, int *c, int *d, double *e);
+   AVL(int *a, int *b, int *c, double *d, double *e);
    ~AVL() { }
    struct node *insert(struct node *&r, double data);
 

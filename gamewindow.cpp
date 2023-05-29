@@ -44,17 +44,10 @@ Gamewindow::Gamewindow(QWidget *parent,MainWindow *m):
     this->counter_trees = 0;
     tab = new class tablero();
     granjero = new class granjero();
-  //  granjero->cargaEspantajaros = true;
-    plagahilo = new plagaThread(plagaLab, &this->main_window->probPlaga, 2, &this->main_window->tiempoSegPlaga, &this->main_window->frutosComenPlaga, &this->main_window->tiempoSegComenPlaga, 3, tab, granjero, mutexTablero);
-    ovejahilo = new plagaThread(ovejaLab, &this->main_window->probOveja, 2, &this->main_window->tiempoSegOveja,  &this->main_window->frutosComenOveja, &this->main_window->tiempoSegComenOveja, 1, tab, granjero, mutexTablero);
-    cuervohilo = new plagaThread(cuervoLab, &this->main_window->probCuervo, 2, &this->main_window->tiempoSegCuervo,  &this->main_window->frutosComenCuervo, &this->main_window->tiempoSegComenCuervo, 2, tab, granjero, mutexTablero);
-//    plagaThread(QLabel *plagaLabel, int probabilidad, int cant, int tiempoSeg, int frutosComen, int tiempoSegComen, int tipo, tablero *tab, granjero *granj, QMutex *mutexTab)
-
     this->pos_trees = new QHash<int,QVector<int>>;
-    mercado_thread = new class mercado_thread(this->main_window->t_mercado_abierto,this->main_window->t_mercado_abrir,findChild<QLabel*>("label_mercado"),&this->granjero->dinero,findChild<QLabel*>("label_plata"));
     granjeroLab->setGeometry(60,80,50,50);
     plagaLab->setGeometry(60,80,50,50);
-
+    generarLabels();
 }
 
 Gamewindow::~Gamewindow()
@@ -212,7 +205,7 @@ void Gamewindow::keyPressEvent(QKeyEvent * event)
             this->tab->modificarArbol(posx_matriz,posy_matriz,1,this->main_window->t_crecimien_abb,
                                       this->main_window->cosecha_cada_t_abb,this->main_window->cosecha_abb,
                                       this->main_window->costo_abb,this->main_window->precio_frut_abb,tabla,
-                                      &this->granjero->dinero);
+                                      &this->granjero->dinero,-1,parcelas[posy_matriz][posx_matriz]);
             parcelas[posy_matriz][posx_matriz]->setPixmap(this->abb_);
             this->granjero->cargaArbolTipo = 0;
             this->pos_trees->insert(counter_trees,{posx_matriz,posy_matriz});
@@ -222,7 +215,7 @@ void Gamewindow::keyPressEvent(QKeyEvent * event)
             this->tab->modificarArbol(posx_matriz,posy_matriz,2,this->main_window->t_crecimien_arj,
                                       this->main_window->cosecha_cada_t_arj,this->main_window->cosecha_arj,
                                       this->main_window->costo_arj,this->main_window->precio_frut_arj,tabla,
-                                      &this->granjero->dinero);
+                                      &this->granjero->dinero,-1,parcelas[posy_matriz][posx_matriz]);
             parcelas[posy_matriz][posx_matriz]->setPixmap(this->arj_);
             this->granjero->cargaArbolTipo = 0;
             this->pos_trees->insert(counter_trees,{posx_matriz,posy_matriz});
@@ -232,7 +225,7 @@ void Gamewindow::keyPressEvent(QKeyEvent * event)
             this->tab->modificarArbol(posx_matriz,posy_matriz,3,this->main_window->t_crecimien_avl,
                                       this->main_window->cosecha_cada_t_avl,this->main_window->cosecha_avl,
                                       this->main_window->costo_avl,this->main_window->precio_frut_avl,tabla,
-                                      &this->granjero->dinero);
+                                      &this->granjero->dinero,-1,parcelas[posy_matriz][posx_matriz]);
             parcelas[posy_matriz][posx_matriz]->setPixmap(this->avl_);
             this->granjero->cargaArbolTipo = 0;
             this->pos_trees->insert(counter_trees,{posx_matriz,posy_matriz});
@@ -242,7 +235,7 @@ void Gamewindow::keyPressEvent(QKeyEvent * event)
             this->tab->modificarArbol(posx_matriz,posy_matriz,4,this->main_window->t_crecimien_heap,
                                       this->main_window->cosecha_cada_t_heap,this->main_window->cosecha_heap,
                                       this->main_window->costo_heap,this->main_window->precio_frut_heap,tabla,
-                                      &this->granjero->dinero);
+                                      &this->granjero->dinero,-1,parcelas[posy_matriz][posx_matriz]);
             parcelas[posy_matriz][posx_matriz]->setPixmap(this->heap_);
             this->granjero->cargaArbolTipo = 0;
             this->pos_trees->insert(counter_trees,{posx_matriz,posy_matriz});
@@ -266,32 +259,15 @@ void Gamewindow::keyPressEvent(QKeyEvent * event)
             parcelas[posy_matriz][posx_matriz]->setPixmap(espantapajaro);
             granjero->cargaEspantajaros = false;
         }
-    }/*
-    else if(event->key() == Qt::Key_W){
-        std::cout<<"WWWW"<<std::endl;
-
     }
-    else if(event->key() == Qt::Key_A){
-        std::cout<<"AAAA"<<std::endl;
-
-    }
-    else if(event->key() == Qt::Key_S){
-        std::cout<<"SSSS"<<std::endl;
-
-    }
-    else if(event->key() == Qt::Key_D){
-        std::cout<<"DDDD"<<std::endl;
-
-    }*/
 }
-   // tabla->setDisabled(false);
 
 void Gamewindow::verificarGranjero(int x, int y){
     if((plagaLab->x() == x) && (plagaLab->y() == y)){
-        //plagaLab->setVisible(false);
+     //   plagaLab->setVisible(false);
     }
     else if((ovejaLab->x() == x) & (ovejaLab->y() == y)){
-    //    ovejaLab->setVisible(false);
+        ovejaLab->setVisible(false);
     }
     else if((cuervoLab->x() == x) && (cuervoLab->y() == y)){
         cuervoLab->setVisible(false);
@@ -357,12 +333,240 @@ void Gamewindow::on_pushButton_3_clicked()
 
 void Gamewindow::on_iniciarButton_clicked()
 {
+    plagahilo = new plagaThread(plagaLab, &this->main_window->probPlaga, 2, &this->main_window->tiempoSegPlaga, &this->main_window->frutosComenPlaga, &this->main_window->tiempoSegComenPlaga, 3, tab, granjero, mutexTablero);
+    ovejahilo = new plagaThread(ovejaLab, &this->main_window->probOveja, 2, &this->main_window->tiempoSegOveja,  &this->main_window->frutosComenOveja, &this->main_window->tiempoSegComenOveja, 1, tab, granjero, mutexTablero);
+    cuervohilo = new plagaThread(cuervoLab, &this->main_window->probCuervo, 2, &this->main_window->tiempoSegCuervo,  &this->main_window->frutosComenCuervo, &this->main_window->tiempoSegComenCuervo, 2, tab, granjero, mutexTablero);
+    mercado_thread = new class mercado_thread(this->main_window->t_mercado_abierto,this->main_window->t_mercado_abrir,findChild<QLabel*>("label_mercado"),&this->granjero->dinero,findChild<QLabel*>("label_plata"));
+
     cuervohilo->start();
     plagahilo->start();
     ovejahilo->start();
     recordLab->setText(toStringRecords());
     mercado_thread->start();
-    generarLabels();
+
     granjeroLab->setVisible(true);
+}
+
+
+void Gamewindow::on_pushButton_5_clicked()
+{
+    QString filePath = "C:/Users/Asus/Repositories/ProyectoED2/"+QString::fromStdString(this->main_window->nombre)+".json";
+    qDebug() << "C:/Users/Asus/Repositories/ProyectoED2/"+QString::fromStdString(this->main_window->nombre)+".json";
+    QFile file(filePath);
+    if (file.open(QIODevice::ReadOnly)) {
+        // Read the JSON data from the file
+        QByteArray jsonData = file.readAll();
+
+        // Parse the JSON document
+        QJsonDocument jsonDocument = QJsonDocument::fromJson(jsonData);
+        if (!jsonDocument.isNull()) {
+            if (jsonDocument.isObject()) {
+                QJsonObject jsonObject = jsonDocument.object();
+                this->granjero->dinero = jsonObject["Plata"].toDouble();
+                QJsonArray jsonArray = jsonObject["config"].toArray();
+
+                *this->main_window->costo_abb = jsonArray[0].toDouble();
+                *this->main_window->cosecha_abb = jsonArray[1].toInt();
+                *this->main_window->cosecha_cada_t_abb = jsonArray[2].toInt();
+                *this->main_window->precio_frut_abb = jsonArray[3].toDouble();
+                *this->main_window->t_crecimien_abb = jsonArray[4].toInt();
+
+                *this->main_window->costo_arj = jsonArray[5].toDouble();
+                *this->main_window->cosecha_arj = jsonArray[6].toInt();
+                *this->main_window->cosecha_cada_t_arj = jsonArray[7].toInt();
+                *this->main_window->precio_frut_arj = jsonArray[8].toDouble();
+                *this->main_window->t_crecimien_arj = jsonArray[9].toInt();
+
+                *this->main_window->costo_avl = jsonArray[10].toDouble();
+                *this->main_window->cosecha_avl = jsonArray[11].toInt();
+                *this->main_window->cosecha_cada_t_avl = jsonArray[12].toInt();
+                *this->main_window->precio_frut_avl = jsonArray[13].toDouble();
+                *this->main_window->t_crecimien_avl = jsonArray[14].toInt();
+
+
+                *this->main_window->costo_heap = jsonArray[15].toDouble();
+                *this->main_window->cosecha_heap = jsonArray[16].toInt();
+                *this->main_window->cosecha_cada_t_heap = jsonArray[17].toInt();
+                *this->main_window->precio_frut_heap = jsonArray[18].toDouble();
+                *this->main_window->t_crecimien_heap = jsonArray[19].toInt();
+
+                this->main_window->probOveja = jsonArray[20].toInt();
+                this->main_window->tiempoSegOveja = jsonArray[21].toInt();
+                this->main_window->frutosComenOveja = jsonArray[22].toInt();
+                this->main_window->tiempoSegComenOveja = jsonArray[23].toInt();
+
+                this->main_window->probCuervo = jsonArray[24].toInt();
+                this->main_window->tiempoSegCuervo = jsonArray[25].toInt();
+                this->main_window->frutosComenCuervo = jsonArray[26].toInt();
+                this->main_window->tiempoSegComenCuervo = jsonArray[27].toInt();
+
+                this->main_window->probPlaga = jsonArray[28].toInt();
+                this->main_window->tiempoSegPlaga = jsonArray[29].toInt();
+                this->main_window->frutosComenPlaga = jsonArray[30].toInt();
+                this->main_window->tiempoSegComenPlaga = jsonArray[31].toInt();
+
+                qDebug()<< jsonArray[32].toInt();
+                qDebug()<< jsonArray[33].toInt();
+                *this->main_window->t_mercado_abierto= jsonArray[32].toInt();
+               *this->main_window->t_mercado_abrir = jsonArray[33].toInt();
+                qDebug()<< *this->main_window->t_mercado_abrir;
+                qDebug()<< *this->main_window->t_mercado_abierto;
+                for (const QJsonValue& itemValue : jsonArray) {
+                    QJsonObject itemObject = itemValue.toObject();
+                    int key = itemObject["key"].toInt();
+                    QJsonArray valuesArray = itemObject["values"].toArray();
+                }
+                int n = 0;
+                while(true){
+                    if(jsonObject.contains(QString::number(n))){
+                        QJsonArray jsonArray = jsonObject[QString::number(n)].toArray();
+                        int tipo = jsonArray[0].toInt();
+                        switch(tipo){
+                        case 1:
+                            this->tab->modificarArbol(jsonArray[4].toInt(),jsonArray[5].toInt(),1,this->main_window->t_crecimien_abb,
+                                                      this->main_window->cosecha_cada_t_abb,this->main_window->cosecha_abb,
+                                                      this->main_window->costo_abb,this->main_window->precio_frut_abb,tabla,
+                                                      &this->granjero->dinero,jsonArray[1].toInt(),parcelas[jsonArray[5].toInt()][jsonArray[4].toInt()]);
+                            this->tab->casillaEnPos(jsonArray[4].toInt(),jsonArray[5].toInt())->perdidos = jsonArray[2].toInt();
+                            this->tab->casillaEnPos(jsonArray[4].toInt(),jsonArray[5].toInt())->vendidos = jsonArray[3].toInt();
+
+                            parcelas[jsonArray[5].toInt()][jsonArray[4].toInt()]->setPixmap(this->abb_);
+                            this->pos_trees->insert(counter_trees,{jsonArray[4].toInt(),jsonArray[5].toInt()});
+                            this->table_pos->insertItem(counter_trees,QString::number(++counter_trees));
+                            break;
+                        case 2:
+                            this->tab->modificarArbol(jsonArray[4].toInt(),jsonArray[5].toInt(),2,this->main_window->t_crecimien_arj,
+                                                      this->main_window->cosecha_cada_t_arj,this->main_window->cosecha_arj,
+                                                      this->main_window->costo_arj,this->main_window->precio_frut_arj,tabla,
+                                                      &this->granjero->dinero,jsonArray[1].toInt(),parcelas[jsonArray[5].toInt()][jsonArray[4].toInt()]);
+                            parcelas[jsonArray[5].toInt()][jsonArray[4].toInt()]->setPixmap(this->arj_);
+                            this->pos_trees->insert(counter_trees,{jsonArray[4].toInt(),jsonArray[5].toInt()});
+                            this->table_pos->insertItem(counter_trees,QString::number(++counter_trees));
+                            this->tab->casillaEnPos(jsonArray[4].toInt(),jsonArray[5].toInt())->perdidos = jsonArray[2].toInt();
+                            this->tab->casillaEnPos(jsonArray[4].toInt(),jsonArray[5].toInt())->vendidos = jsonArray[3].toInt();
+
+                            break;
+
+                        case 3:
+                            this->tab->modificarArbol(jsonArray[4].toInt(),jsonArray[5].toInt(),3,this->main_window->t_crecimien_avl,
+                                                      this->main_window->cosecha_cada_t_avl,this->main_window->cosecha_avl,
+                                                      this->main_window->costo_avl,this->main_window->precio_frut_avl,tabla,
+                                                      &this->granjero->dinero,jsonArray[1].toInt(),parcelas[jsonArray[5].toInt()][jsonArray[4].toInt()]);
+                            parcelas[jsonArray[5].toInt()][jsonArray[4].toInt()]->setPixmap(this->avl_);
+                            this->tab->casillaEnPos(jsonArray[4].toInt(),jsonArray[5].toInt())->perdidos = jsonArray[2].toInt();
+                            this->tab->casillaEnPos(jsonArray[4].toInt(),jsonArray[5].toInt())->vendidos = jsonArray[3].toInt();
+
+                            this->pos_trees->insert(counter_trees,{jsonArray[4].toInt(),jsonArray[5].toInt()});
+                            this->table_pos->insertItem(counter_trees,QString::number(++counter_trees));
+                            break;
+
+                        case 4:
+                            this->tab->modificarArbol(jsonArray[4].toInt(),jsonArray[5].toInt(),4,this->main_window->t_crecimien_heap,
+                                                      this->main_window->cosecha_cada_t_heap,this->main_window->cosecha_heap,
+                                                      this->main_window->costo_heap,this->main_window->precio_frut_heap,tabla,
+                                                      &this->granjero->dinero,jsonArray[1].toInt(),parcelas[jsonArray[5].toInt()][jsonArray[4].toInt()]);
+                            parcelas[jsonArray[5].toInt()][jsonArray[4].toInt()]->setPixmap(this->heap_);
+                            this->tab->casillaEnPos(jsonArray[4].toInt(),jsonArray[5].toInt())->perdidos = jsonArray[2].toInt();
+                            this->tab->casillaEnPos(jsonArray[4].toInt(),jsonArray[5].toInt())->vendidos = jsonArray[3].toInt();
+                            this->pos_trees->insert(counter_trees,{jsonArray[4].toInt(),jsonArray[5].toInt()});
+                            this->table_pos->insertItem(counter_trees,QString::number(++counter_trees));
+                            break;
+                        }
+
+                        n++;
+                    }else
+                        break;
+                    QThread::sleep(1);
+                }
+            }
+        }
+    }
+}
+
+void Gamewindow::on_guardarButton_clicked()
+{
+    {
+        QHash<int, QVector<int>> hash = *this->pos_trees;
+
+        QJsonObject jsonObject;
+        jsonObject["Plata"] = this->granjero->dinero;
+        for (auto it = hash.begin(); it != hash.end(); ++it) {
+            int key = it.key();
+            QVector<int> value = it.value();
+            QJsonArray jsonArray;
+
+            jsonArray.append(this->tab->casillaEnPos(it.value()[0],it.value()[1])->arbol);
+            jsonArray.append(this->tab->casillaEnPos(it.value()[0],it.value()[1])->n_elementos);
+            jsonArray.append(this->tab->casillaEnPos(it.value()[0],it.value()[1])->perdidos);
+            jsonArray.append(this->tab->casillaEnPos(it.value()[0],it.value()[1])->vendidos);
+
+
+            for (int item : value) {
+                jsonArray.append(item);
+            }
+
+            jsonObject[QString::number(key)] = jsonArray;
+
+        }
+        QJsonArray jsonArray;
+        jsonArray.append(*this->main_window->costo_abb);
+        jsonArray.append(*this->main_window->cosecha_abb);
+        jsonArray.append(*this->main_window->cosecha_cada_t_abb);
+        jsonArray.append(*this->main_window->precio_frut_abb);
+        jsonArray.append(*this->main_window->t_crecimien_abb);
+
+        jsonArray.append(*this->main_window->costo_arj);
+        jsonArray.append(*this->main_window->cosecha_arj);
+        jsonArray.append(*this->main_window->cosecha_cada_t_arj);
+        jsonArray.append(*this->main_window->precio_frut_arj);
+        jsonArray.append(*this->main_window->t_crecimien_arj);
+
+        jsonArray.append(*this->main_window->costo_avl);
+        jsonArray.append(*this->main_window->cosecha_avl);
+        jsonArray.append(*this->main_window->cosecha_cada_t_avl);
+        jsonArray.append(*this->main_window->precio_frut_avl);
+        jsonArray.append(*this->main_window->t_crecimien_avl);
+
+        jsonArray.append(*this->main_window->costo_heap);
+        jsonArray.append(*this->main_window->cosecha_heap);
+        jsonArray.append(*this->main_window->cosecha_cada_t_heap);
+        jsonArray.append(*this->main_window->precio_frut_heap);
+        jsonArray.append(*this->main_window->t_crecimien_heap);
+
+        jsonArray.append(this->main_window->probOveja);
+        jsonArray.append(this->main_window->tiempoSegOveja);
+        jsonArray.append(this->main_window->frutosComenOveja);
+        jsonArray.append(this->main_window->tiempoSegComenOveja);
+
+        jsonArray.append(this->main_window->probCuervo);
+        jsonArray.append(this->main_window->tiempoSegCuervo);
+        jsonArray.append(this->main_window->frutosComenCuervo);
+        jsonArray.append(this->main_window->tiempoSegComenCuervo);
+
+        jsonArray.append(this->main_window->probPlaga);
+        jsonArray.append(this->main_window->tiempoSegPlaga);
+        jsonArray.append(this->main_window->frutosComenPlaga);
+        jsonArray.append(this->main_window->tiempoSegComenPlaga);
+
+        jsonArray.append(*this->main_window->t_mercado_abierto);
+        jsonArray.append(*this->main_window->t_mercado_abrir);
+
+        jsonObject["config"] = jsonArray;
+        // Creating a JSON document from the JSON object
+        QJsonDocument jsonDocument(jsonObject);
+
+        // Saving the JSON document to a file
+        QString filePath = "C:/Users/Asus/Repositories/ProyectoED2/"+QString::fromStdString(this->main_window->nombre)+".json";
+        QFile file(filePath);
+        if (file.open(QIODevice::WriteOnly)) {
+            file.write(jsonDocument.toJson());
+            file.close();
+            qDebug() << "JSON data saved to" << filePath;
+        } else {
+            qDebug() << "Failed to open file for writing:" << file.errorString();
+        }
+
+
+    }
 }
 

@@ -32,14 +32,14 @@ public:
     int *t_produ_frut;
     int *n_produ_frut;
     double *costo;
-    int perdidos= 0;
-    int vendidos= 0;
-    int n_elementos= 0;
+    int* perdidos;
+    int* vendidos;
+    int* n_elementos;
     double *precio_fruto;
     double vender(int);
     void comer(int);
 
-    RBTree(int *a, int *b, int *c, double *d, double *e);
+    RBTree(int *a, int *b, int *c, double *d, double *e,int *f,int *g,int *h);
     void insertValue(double);
     void deleteValue(double);
     double del_min();

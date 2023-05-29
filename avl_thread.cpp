@@ -57,7 +57,7 @@ void AVL_Thread::run(){
         this->mutex_avl.lock();
         for(int i = *this->avl->n_produ_frut; i > 0; i--){
             double random = QRandomGenerator::global()->generateDouble() * 4 + 1;
-            this->avl->meterABB(random);
+            //this->avl->meterABB(random);
             this->avl->n_elementos++;
 
         }
